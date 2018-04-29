@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "idiom" : "universal",
+      "filename" : "kisspng-money-bag-wallet-clip-art-money-5ab91d4a57e756.9715665415220810983601.png",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "kisspng-money-bag-wallet-clip-art-money-5ab91d4a57e756.9715665415220810983601-1.png",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "kisspng-money-bag-wallet-clip-art-money-5ab91d4a57e756.9715665415220810983601-2.png",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "version" : 1,
+    "author" : "xcode"
+  }
+}
