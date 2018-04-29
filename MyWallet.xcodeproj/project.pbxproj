@@ -13,6 +13,7 @@
 		E25862902096484C00750470 /* CategoryAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E258628F2096484C00750470 /* CategoryAddViewController.swift */; };
 		E25862922096542D00750470 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E25862912096542D00750470 /* Login.storyboard */; };
 		E2586294209654AF00750470 /* LoginStartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2586293209654AF00750470 /* LoginStartViewController.swift */; };
+		E258629620966D0600750470 /* SBView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E258629520966D0600750470 /* SBView.swift */; };
 		E28A4A862093E4D700FBD546 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28A4A852093E4D700FBD546 /* AppDelegate.swift */; };
 		E28A4A882093E4D700FBD546 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28A4A872093E4D700FBD546 /* ViewController.swift */; };
 		E28A4A8B2093E4D700FBD546 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E28A4A892093E4D700FBD546 /* Main.storyboard */; };
@@ -30,8 +31,9 @@
 		E2586289209644E200750470 /* LoginByPhoneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginByPhoneViewController.swift; sourceTree = "<group>"; };
 		E258628D2096472900750470 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		E258628F2096484C00750470 /* CategoryAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryAddViewController.swift; sourceTree = "<group>"; };
-		E25862912096542D00750470 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
+		E25862912096542D00750470 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Login.storyboard; path = ../../Login.storyboard; sourceTree = "<group>"; };
 		E2586293209654AF00750470 /* LoginStartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginStartViewController.swift; sourceTree = "<group>"; };
+		E258629520966D0600750470 /* SBView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBView.swift; sourceTree = "<group>"; };
 		E28A4A822093E4D700FBD546 /* MyWallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyWallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E28A4A852093E4D700FBD546 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E28A4A872093E4D700FBD546 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 		E25862862096447700750470 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				E25862912096542D00750470 /* Login.storyboard */,
 				E2586289209644E200750470 /* LoginByPhoneViewController.swift */,
 				E2586293209654AF00750470 /* LoginStartViewController.swift */,
 			);
@@ -120,7 +123,6 @@
 				E28A4A852093E4D700FBD546 /* AppDelegate.swift */,
 				E258628520963DC800750470 /* Controllers */,
 				E28A4A892093E4D700FBD546 /* Main.storyboard */,
-				E25862912096542D00750470 /* Login.storyboard */,
 				E28A4A912093E4DA00FBD546 /* LaunchScreen.storyboard */,
 				E28A4A8F2093E4DA00FBD546 /* Assets.xcassets */,
 				E28A4A8C2093E4D700FBD546 /* MyWallet.xcdatamodeld */,
@@ -132,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				E28A4A9D2093E86800FBD546 /* Colors.swift */,
+				E258629520966D0600750470 /* SBView.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -281,6 +284,7 @@
 				E28A4A9E2093E86800FBD546 /* Colors.swift in Sources */,
 				E25862902096484C00750470 /* CategoryAddViewController.swift in Sources */,
 				E28A4A882093E4D700FBD546 /* ViewController.swift in Sources */,
+				E258629620966D0600750470 /* SBView.swift in Sources */,
 				E258628E2096472900750470 /* CategoryViewController.swift in Sources */,
 				E28A4A862093E4D700FBD546 /* AppDelegate.swift in Sources */,
 				E2586294209654AF00750470 /* LoginStartViewController.swift in Sources */,

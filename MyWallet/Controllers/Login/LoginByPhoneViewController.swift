@@ -7,10 +7,73 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class LoginByPhoneViewController: UIViewController {
     
+    @IBOutlet weak var txtPhoneNumber: UITextField!
     @IBOutlet weak var btnLogin: UIButton!
+    
+    func showErr(err: String){
+        let alertErrController = UIAlertController(title: "Xảy ra lỗi", message: err, preferredStyle: UIAlertControllerStyle.alert)
+        alertErrController.addAction(UIKit.UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: { _ in
+            self.txtPhoneNumber.becomeFirstResponder()
+        }))
+        self.present(alertErrController, animated: true, completion: nil)
+    }
+    
+    func showMain(){
+        
+    }
+    
+    @IBAction func Login(_ sender: Any) {
+        if txtPhoneNumber.text != "" {
+            PhoneAuthProvider.provider().verifyPhoneNumber(txtPhoneNumber.text!, uiDelegate: nil){ (verificationID, error) in
+                if let error = error {
+                    self.showErr(err: error.localizedDescription)
+                    print("Lỗi", error.localizedDescription)
+                    return
+                }
+                let codeAlertController = UIAlertController(
+                    title: "Nhập mã xác nhận",
+                    message: "Vui lòng đợi mã xác nhận gồm 6 số, nhập vào ô bên dưới và nhấp Tiếp tục",
+                    preferredStyle: .alert )
+                codeAlertController.addTextField { textfield in
+                    textfield.placeholder = "Mã xác nhận"
+                    textfield.keyboardType = UIKeyboardType.numberPad
+                }
+                codeAlertController.addAction(
+                    UIAlertAction(
+                        title: "Tiếp tục",
+                        style: .default,
+                        handler: { (UIAlertAction) in
+                            let code = codeAlertController.textFields!.first!.text!
+                            let credential = PhoneAuthProvider.provider().credential(
+                                withVerificationID: verificationID!,
+                                verificationCode: code
+                            )
+                            Auth.auth().signIn(with: credential) { (user, error) in
+                                if let error = error {
+                                    self.showErr(err: error.localizedDescription)
+                                    return
+                                }
+                                // Success login
+                                self.present(MainView, animated: true)
+                            }
+                        }
+                    )
+                )
+                self.present(codeAlertController, animated: true, completion: nil)
+            }
+        } else {
+            let alertController = UIAlertController(title: "Xảy ra lỗi", message: "Vui lòng nhập số điện thoại!", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: { _ in
+                self.txtPhoneNumber.becomeFirstResponder()
+            }))
+            self.present(alertController, animated: true, completion: nil)
+        }
+    }
+    
     
     @IBAction func dismiss(_ sender: Any) {
         dismiss(animated: true, completion: nil)

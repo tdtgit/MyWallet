@@ -13,7 +13,7 @@
         <!--Login Start View Controller-->
         <scene sceneID="raS-io-qbI">
             <objects>
-                <viewController useStoryboardIdentifierAsRestorationIdentifier="YES" id="WdR-Sh-bZi" customClass="LoginStartViewController" customModule="MyWallet" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginStartViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="WdR-Sh-bZi" customClass="LoginStartViewController" customModule="MyWallet" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="yqR-aq-4Mq">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -55,18 +55,18 @@
         <!--Login By Phone View Controller-->
         <scene sceneID="Sht-AU-TB9">
             <objects>
-                <viewController id="gbY-2Y-QfY" customClass="LoginByPhoneViewController" customModule="MyWallet" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginByPhoneViewController" id="gbY-2Y-QfY" customClass="LoginByPhoneViewController" customModule="MyWallet" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Bvw-4Q-INc">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Số điện thoại" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qGd-jZ-8Sf">
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" text="+84971423424" placeholder="Số điện thoại" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qGd-jZ-8Sf">
                                 <rect key="frame" x="16" y="296" width="343" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" keyboardType="phonePad" textContentType="tel"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k9S-EC-PZc">
                                 <rect key="frame" x="16" y="359" width="343" height="48"/>
@@ -77,7 +77,7 @@
                                     <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <segue destination="ieE-lK-nkf" kind="show" id="dkY-gI-pGA"/>
+                                    <action selector="Login:" destination="gbY-2Y-QfY" eventType="touchUpInside" id="fMr-R7-2Rx"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wBd-a4-YEj">
@@ -98,6 +98,7 @@
                     </view>
                     <connections>
                         <outlet property="btnLogin" destination="k9S-EC-PZc" id="6bB-Gu-2MI"/>
+                        <outlet property="txtPhoneNumber" destination="qGd-jZ-8Sf" id="59w-ES-YWq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VLo-9C-7fN" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -107,7 +108,9 @@
         <!--Main-->
         <scene sceneID="shu-8S-Kse">
             <objects>
-                <viewControllerPlaceholder storyboardName="Main" id="ieE-lK-nkf" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="Main" id="ieE-lK-nkf" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="Js7-aW-aMp"/>
+                </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E5a-hL-Z4r" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1056" y="-335"/>

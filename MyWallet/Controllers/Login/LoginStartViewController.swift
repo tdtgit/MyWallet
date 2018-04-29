@@ -14,14 +14,12 @@ class LoginStartViewController: UIViewController {
         super.viewDidLoad()
         
         self.view.backgroundColor = AppColor.Primary.Dark
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
