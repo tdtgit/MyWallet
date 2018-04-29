@@ -11,6 +11,8 @@
 		E258628A209644E200750470 /* LoginByPhoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2586289209644E200750470 /* LoginByPhoneViewController.swift */; };
 		E258628E2096472900750470 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E258628D2096472900750470 /* CategoryViewController.swift */; };
 		E25862902096484C00750470 /* CategoryAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E258628F2096484C00750470 /* CategoryAddViewController.swift */; };
+		E25862922096542D00750470 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E25862912096542D00750470 /* Login.storyboard */; };
+		E2586294209654AF00750470 /* LoginStartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2586293209654AF00750470 /* LoginStartViewController.swift */; };
 		E28A4A862093E4D700FBD546 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28A4A852093E4D700FBD546 /* AppDelegate.swift */; };
 		E28A4A882093E4D700FBD546 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28A4A872093E4D700FBD546 /* ViewController.swift */; };
 		E28A4A8B2093E4D700FBD546 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E28A4A892093E4D700FBD546 /* Main.storyboard */; };
@@ -28,6 +30,8 @@
 		E2586289209644E200750470 /* LoginByPhoneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginByPhoneViewController.swift; sourceTree = "<group>"; };
 		E258628D2096472900750470 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		E258628F2096484C00750470 /* CategoryAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryAddViewController.swift; sourceTree = "<group>"; };
+		E25862912096542D00750470 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
+		E2586293209654AF00750470 /* LoginStartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginStartViewController.swift; sourceTree = "<group>"; };
 		E28A4A822093E4D700FBD546 /* MyWallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyWallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E28A4A852093E4D700FBD546 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E28A4A872093E4D700FBD546 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -75,6 +79,7 @@
 			isa = PBXGroup;
 			children = (
 				E2586289209644E200750470 /* LoginByPhoneViewController.swift */,
+				E2586293209654AF00750470 /* LoginStartViewController.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -110,13 +115,14 @@
 			isa = PBXGroup;
 			children = (
 				E28A4A9A2093E4FA00FBD546 /* GoogleService-Info.plist */,
+				E28A4A942093E4DA00FBD546 /* Info.plist */,
 				E28A4A9C2093E85B00FBD546 /* Helpers */,
 				E28A4A852093E4D700FBD546 /* AppDelegate.swift */,
 				E258628520963DC800750470 /* Controllers */,
 				E28A4A892093E4D700FBD546 /* Main.storyboard */,
-				E28A4A8F2093E4DA00FBD546 /* Assets.xcassets */,
+				E25862912096542D00750470 /* Login.storyboard */,
 				E28A4A912093E4DA00FBD546 /* LaunchScreen.storyboard */,
-				E28A4A942093E4DA00FBD546 /* Info.plist */,
+				E28A4A8F2093E4DA00FBD546 /* Assets.xcassets */,
 				E28A4A8C2093E4D700FBD546 /* MyWallet.xcdatamodeld */,
 			);
 			path = MyWallet;
@@ -201,6 +207,7 @@
 				E28A4A932093E4DA00FBD546 /* LaunchScreen.storyboard in Resources */,
 				E28A4A9B2093E4FA00FBD546 /* GoogleService-Info.plist in Resources */,
 				E28A4A902093E4DA00FBD546 /* Assets.xcassets in Resources */,
+				E25862922096542D00750470 /* Login.storyboard in Resources */,
 				E28A4A8B2093E4D700FBD546 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -276,6 +283,7 @@
 				E28A4A882093E4D700FBD546 /* ViewController.swift in Sources */,
 				E258628E2096472900750470 /* CategoryViewController.swift in Sources */,
 				E28A4A862093E4D700FBD546 /* AppDelegate.swift in Sources */,
+				E2586294209654AF00750470 /* LoginStartViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -423,7 +431,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 29453QD5FP;
 				INFOPLIST_FILE = MyWallet/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.duonganhtuan.MyWallet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -439,7 +450,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 29453QD5FP;
 				INFOPLIST_FILE = MyWallet/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.duonganhtuan.MyWallet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
