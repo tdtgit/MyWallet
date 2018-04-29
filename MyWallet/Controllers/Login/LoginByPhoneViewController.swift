@@ -10,13 +10,9 @@ import UIKit
 
 class LoginByPhoneViewController: UIViewController {
     
-    @IBOutlet weak var btnDismiss: UIButton!
+    @IBOutlet weak var btnLogin: UIButton!
     
     @IBAction func dismiss(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
-    }
-    
-    func btnDismiss_action(){
         dismiss(animated: true, completion: nil)
     }
     
@@ -24,9 +20,7 @@ class LoginByPhoneViewController: UIViewController {
         super.viewDidLoad()
         
         self.view.backgroundColor = AppColor.Primary.Dark
-        
-        btnDismiss.layer.backgroundColor = AppColor.Primary.Light.cgColor
-        btnDismiss.layer.cornerRadius = 5
+        btnLogin.layer.backgroundColor = AppColor.Primary.Light.cgColor
     }
 
     override func didReceiveMemoryWarning() {
