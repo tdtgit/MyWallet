@@ -22,10 +22,6 @@ class LoginByPhoneViewController: UIViewController {
         self.present(alertErrController, animated: true, completion: nil)
     }
     
-    func showMain(){
-        
-    }
-    
     @IBAction func Login(_ sender: Any) {
         if txtPhoneNumber.text != "" {
             PhoneAuthProvider.provider().verifyPhoneNumber(txtPhoneNumber.text!, uiDelegate: nil){ (verificationID, error) in
@@ -47,18 +43,19 @@ class LoginByPhoneViewController: UIViewController {
                         title: "Tiếp tục",
                         style: .default,
                         handler: { (UIAlertAction) in
-                            let code = codeAlertController.textFields!.first!.text!
-                            let credential = PhoneAuthProvider.provider().credential(
-                                withVerificationID: verificationID!,
-                                verificationCode: code
-                            )
-                            Auth.auth().signIn(with: credential) { (user, error) in
-                                if let error = error {
-                                    self.showErr(err: error.localizedDescription)
-                                    return
+                            if let code = codeAlertController.textFields!.first!.text! as String?, code != "" {
+                                let credential = PhoneAuthProvider.provider().credential(
+                                    withVerificationID: verificationID!,
+                                    verificationCode: code
+                                )
+                                Auth.auth().signIn(with: credential) { (user, error) in
+                                    if let error = error {
+                                        self.showErr(err: error.localizedDescription)
+                                        return
+                                    }
+                                    // Success login
+                                    self.present(MainView, animated: true)
                                 }
-                                // Success login
-                                self.present(MainView, animated: true)
                             }
                         }
                     )
