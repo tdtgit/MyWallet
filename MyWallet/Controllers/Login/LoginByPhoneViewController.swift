@@ -14,6 +14,10 @@ class LoginByPhoneViewController: UIViewController {
     @IBOutlet weak var txtPhoneNumber: UITextField!
     @IBOutlet weak var btnLogin: UIButton!
     
+    func LoginSuccess(){
+        self.present(MainView, animated: true)
+    }
+    
     func showErr(err: String){
         let alertErrController = UIAlertController(title: "Xảy ra lỗi", message: err, preferredStyle: UIAlertControllerStyle.alert)
         alertErrController.addAction(UIKit.UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: { _ in
@@ -54,7 +58,8 @@ class LoginByPhoneViewController: UIViewController {
                                         return
                                     }
                                     // Success login
-                                    self.present(MainView, animated: true)
+                                    self.LoginSuccess()
+                                    UserDefaults.standard.set(verificationID, forKey: "authVerificationID")
                                 }
                             }
                         }
@@ -63,11 +68,7 @@ class LoginByPhoneViewController: UIViewController {
                 self.present(codeAlertController, animated: true, completion: nil)
             }
         } else {
-            let alertController = UIAlertController(title: "Xảy ra lỗi", message: "Vui lòng nhập số điện thoại!", preferredStyle: UIAlertControllerStyle.alert)
-            alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: { _ in
-                self.txtPhoneNumber.becomeFirstResponder()
-            }))
-            self.present(alertController, animated: true, completion: nil)
+            showErr(err: "Vui lòng nhập số điện thoại")
         }
     }
     

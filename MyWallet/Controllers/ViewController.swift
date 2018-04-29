@@ -10,15 +10,9 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    @IBOutlet weak var btnLogin: UIButton!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.view.backgroundColor = AppColor.Primary.Dark
-        
-        btnLogin.layer.backgroundColor = AppColor.Primary.Light.cgColor
-        btnLogin.layer.cornerRadius = 5
     }
 
     override func didReceiveMemoryWarning() {
