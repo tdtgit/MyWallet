@@ -22,6 +22,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         FirebaseApp.configure()
         Auth.auth().languageCode = "vn"
+        if(Auth.auth().currentUser != nil) {
+            self.window?.rootViewController = mainStoryboard.instantiateViewController(withIdentifier: "MainViewController")
+        }
         return true
     }
 

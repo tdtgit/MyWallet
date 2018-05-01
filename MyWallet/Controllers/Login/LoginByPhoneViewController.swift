@@ -59,7 +59,14 @@ class LoginByPhoneViewController: UIViewController {
                                     }
                                     // Success login
                                     self.LoginSuccess()
-                                    UserDefaults.standard.set(verificationID, forKey: "authVerificationID")
+                                    
+                                    let user = User(id: (Auth.auth().currentUser?.uid)!, phone: self.txtPhoneNumber.text!)
+                                    user.exist(completion: { success in
+                                        if success {
+                                        } else {
+                                            user.new()
+                                        }
+                                    })
                                 }
                             }
                         }
