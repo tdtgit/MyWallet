@@ -96,6 +96,13 @@
 			path = Category;
 			sourceTree = "<group>";
 		};
+		E25862972097FF1800750470 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		E28A4A792093E4D700FBD546 = {
 			isa = PBXGroup;
 			children = (
@@ -121,6 +128,7 @@
 				E28A4A942093E4DA00FBD546 /* Info.plist */,
 				E28A4A9C2093E85B00FBD546 /* Helpers */,
 				E28A4A852093E4D700FBD546 /* AppDelegate.swift */,
+				E25862972097FF1800750470 /* Models */,
 				E258628520963DC800750470 /* Controllers */,
 				E28A4A892093E4D700FBD546 /* Main.storyboard */,
 				E28A4A912093E4DA00FBD546 /* LaunchScreen.storyboard */,
