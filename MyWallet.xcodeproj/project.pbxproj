@@ -15,6 +15,7 @@
 		E2586294209654AF00750470 /* LoginStartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2586293209654AF00750470 /* LoginStartViewController.swift */; };
 		E258629620966D0600750470 /* SBView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E258629520966D0600750470 /* SBView.swift */; };
 		E25862992097FF3200750470 /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25862982097FF3200750470 /* Users.swift */; };
+		E288F8C4209AB63B003175ED /* WalletType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E288F8C3209AB63B003175ED /* WalletType.swift */; };
 		E28A4A862093E4D700FBD546 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28A4A852093E4D700FBD546 /* AppDelegate.swift */; };
 		E28A4A882093E4D700FBD546 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28A4A872093E4D700FBD546 /* ViewController.swift */; };
 		E28A4A8B2093E4D700FBD546 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E28A4A892093E4D700FBD546 /* Main.storyboard */; };
@@ -36,6 +37,7 @@
 		E2586293209654AF00750470 /* LoginStartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginStartViewController.swift; sourceTree = "<group>"; };
 		E258629520966D0600750470 /* SBView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBView.swift; sourceTree = "<group>"; };
 		E25862982097FF3200750470 /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
+		E288F8C3209AB63B003175ED /* WalletType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletType.swift; sourceTree = "<group>"; };
 		E28A4A822093E4D700FBD546 /* MyWallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyWallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E28A4A852093E4D700FBD546 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E28A4A872093E4D700FBD546 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 			isa = PBXGroup;
 			children = (
 				E25862982097FF3200750470 /* Users.swift */,
+				E288F8C3209AB63B003175ED /* WalletType.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -297,6 +300,7 @@
 				E25862902096484C00750470 /* CategoryAddViewController.swift in Sources */,
 				E28A4A882093E4D700FBD546 /* ViewController.swift in Sources */,
 				E258629620966D0600750470 /* SBView.swift in Sources */,
+				E288F8C4209AB63B003175ED /* WalletType.swift in Sources */,
 				E258628E2096472900750470 /* CategoryViewController.swift in Sources */,
 				E28A4A862093E4D700FBD546 /* AppDelegate.swift in Sources */,
 				E2586294209654AF00750470 /* LoginStartViewController.swift in Sources */,

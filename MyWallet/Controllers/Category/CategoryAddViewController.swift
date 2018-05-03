@@ -7,6 +7,10 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseAuth
+
+//var db: Firestore!
 
 class CategoryAddViewController: UIViewController {
     
