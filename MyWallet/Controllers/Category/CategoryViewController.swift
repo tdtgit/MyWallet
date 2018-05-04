@@ -7,10 +7,8 @@
 //
 
 import UIKit
-import Firebase
 import FirebaseAuth
 import FirebaseFirestore
-
 
 class WalletTypeCell: UITableViewCell {
     @IBOutlet weak var Name: UILabel!
@@ -18,60 +16,67 @@ class WalletTypeCell: UITableViewCell {
 }
 
 class CategoryViewController: UIViewController, UITableViewDataSource {
-    var db: Firestore!
+    var db = Firestore.firestore()
+    
     let sections = ["Danh mục thu", "Danh mục chi"]
-    var WalletTypeArray: [Int: [WalletType]] = [0: [], 1: []]
+    var WalletTypes = [WalletType]()
     
     @IBOutlet weak var TypeTableView: UITableView!
+    @IBOutlet weak var uiLoading: UIActivityIndicatorView!
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return sections[section]
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return WalletTypeArray.count
+        return sections.count
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
-        case 0:
-            return WalletTypeArray[0]!.count
-        case 1:
-            return WalletTypeArray[1]!.count
-        default:
-            return 0
+            case 0:
+                return WalletTypes.filter({ $0.Section == 0 }).count
+            case 1:
+                return WalletTypes.filter({ $0.Section == 1 }).count
+            default:
+                return 0
         }
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "WalletTypeCell", for: indexPath) as! WalletTypeCell
-        switch indexPath.section {
-        case 0:
-            cell.Name.text = WalletTypeArray[0]![indexPath.row].Name
-            cell.Detail.text = WalletTypeArray[0]![indexPath.row].Detail
-            break
-        case 1:
-            cell.Name.text = WalletTypeArray[1]![indexPath.row].Name
-            cell.Detail.text = WalletTypeArray[1]![indexPath.row].Detail
-            break
-        default:
-            break
-        }
+        cell.Name.text = WalletTypes[indexPath.row].Name
+        cell.Detail.text = WalletTypes[indexPath.row].Detail
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            WalletTypes.remove(at: indexPath.row)
+            TypeTableView.reloadData()
+        }
+    }
+    
+    func populate(){
+        db.collection("users").document((Auth.auth().currentUser?.uid)!).collection("types").getDocuments(completion: { querySnapshot, error in
+            for document in querySnapshot!.documents {
+                if let name = document.data()["name"] as? String, let detail = document.data()["detail"] as? String, let type = document.data()["type"] as? Int {
+                    if self.WalletTypes.contains(where: {$0.ID == document.documentID}) == false {
+                        let newType = WalletType(ID: document.documentID, Name: name, Detail: detail, Section: type)
+                        self.WalletTypes.append(newType)
+                    }
+                }
+            }
+            self.TypeTableView.reloadData()
+        })
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        db = Firestore.firestore()
-        db.collection("users").document((Auth.auth().currentUser?.uid)!).collection("types").getDocuments(completion: { querySnapshot, error in
-            for document in querySnapshot!.documents {
-                if let name = document.data()["name"] as? String, let detail = document.data()["detail"] as? String, let id = document.data()["type"] as? Int {
-                    let newType = WalletType(ID: document.documentID, Name: name, Detail: detail)
-                    self.WalletTypeArray[id]!.append(newType)
-                }
-            }
-            print(self.WalletTypeArray)
-            self.TypeTableView.reloadData()
-        })
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        populate()
     }
 
     override func didReceiveMemoryWarning() {

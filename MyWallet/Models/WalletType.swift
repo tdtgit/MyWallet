@@ -12,4 +12,5 @@ struct WalletType {
     var ID: String
     var Name: String
     var Detail: String?
+    var Section: Int
 }
