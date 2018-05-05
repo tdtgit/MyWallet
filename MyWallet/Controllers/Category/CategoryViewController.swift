@@ -17,58 +17,63 @@ class WalletTypeCell: UITableViewCell {
 
 class CategoryViewController: UIViewController, UITableViewDataSource {
     var db = Firestore.firestore()
-    
-    let sections = ["Danh mục thu", "Danh mục chi"]
     var WalletTypes = [WalletType]()
     
     @IBOutlet weak var TypeTableView: UITableView!
-    @IBOutlet weak var uiLoading: UIActivityIndicatorView!
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sections[section]
+        return WalletTypeSection[section]
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return sections.count
+        return WalletTypeSection.count
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-            case 0:
-                return WalletTypes.filter({ $0.Section == 0 }).count
-            case 1:
-                return WalletTypes.filter({ $0.Section == 1 }).count
-            default:
-                return 0
+        if WalletTypeSection.count > 0 {
+            return WalletTypes.filter({$0.Section == section}).count
         }
+        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "WalletTypeCell", for: indexPath) as! WalletTypeCell
-        cell.Name.text = WalletTypes[indexPath.row].Name
-        cell.Detail.text = WalletTypes[indexPath.row].Detail
+        cell.Name.text = WalletTypes.filter({ $0.Section == indexPath[0] })[indexPath.row].Name
+        cell.Detail.text = WalletTypes.filter({ $0.Section == indexPath[0] })[indexPath.row].Detail
         return cell
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            WalletTypes.remove(at: indexPath.row)
-            TypeTableView.reloadData()
+            delete(id: WalletTypes.filter({ $0.Section == indexPath.section})[indexPath.row].ID!)
         }
     }
     
-    func populate(){
+    public func populate(){
+        var tempWalletTypes = [WalletType]()
         db.collection("users").document((Auth.auth().currentUser?.uid)!).collection("types").getDocuments(completion: { querySnapshot, error in
             for document in querySnapshot!.documents {
                 if let name = document.data()["name"] as? String, let detail = document.data()["detail"] as? String, let type = document.data()["type"] as? Int {
-                    if self.WalletTypes.contains(where: {$0.ID == document.documentID}) == false {
+                    if tempWalletTypes.contains(where: {$0.ID == document.documentID}) == false {
                         let newType = WalletType(ID: document.documentID, Name: name, Detail: detail, Section: type)
-                        self.WalletTypes.append(newType)
+                        tempWalletTypes.append(newType)
                     }
                 }
             }
+            self.WalletTypes = tempWalletTypes
             self.TypeTableView.reloadData()
         })
+    }
+    
+    func delete(id: String){
+        db.collection("users").document((Auth.auth().currentUser?.uid)!).collection("types").document(id).delete() { (err) in
+            if let err = err {
+                print("Error removing document: \(err)")
+            } else {
+//                self.populate()
+            }
+        }
+        self.populate()
     }
     
     override func viewDidLoad() {

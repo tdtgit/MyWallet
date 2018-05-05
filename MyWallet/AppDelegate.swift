@@ -24,6 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Auth.auth().languageCode = "vn"
         if(Auth.auth().currentUser != nil) {
             self.window?.rootViewController = mainStoryboard.instantiateViewController(withIdentifier: "MainViewController")
+        } else {
+            self.window?.rootViewController = loginStoryboard.instantiateViewController(withIdentifier: "LoginStartViewController")
         }
         return true
     }
