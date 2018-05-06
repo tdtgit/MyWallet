@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -99,11 +100,14 @@
                         <viewLayoutGuide key="safeArea" id="qKz-Te-mvK"/>
                     </view>
                     <navigationItem key="navigationItem" title="Danh mục" id="vum-wA-Bqd">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="QR1-xf-gYr">
-                            <connections>
-                                <segue destination="6eB-Tm-IbK" kind="show" id="VKx-aP-fEc"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="add" id="QR1-xf-gYr">
+                                <connections>
+                                    <segue destination="6eB-Tm-IbK" kind="show" id="VKx-aP-fEc"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem systemItem="compose" id="qra-dO-wAb"/>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="TypeTableView" destination="VoC-po-whP" id="ivr-NN-D6N"/>
@@ -112,7 +116,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ug7-si-0YJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4356" y="908.9955022488756"/>
+            <point key="canvasLocation" x="4356" y="849"/>
         </scene>
         <!--Thêm danh mục-->
         <scene sceneID="6DC-go-l70">
@@ -136,23 +140,23 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wYV-sd-9uw">
-                                <rect key="frame" x="319" y="282" width="40" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Thêm"/>
-                                <connections>
-                                    <action selector="add:" destination="6eB-Tm-IbK" eventType="touchUpInside" id="PjH-zp-vMN"/>
-                                </connections>
-                            </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelectionDuringEditing="YES" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FvH-7c-ezi">
-                                <rect key="frame" x="0.0" y="158" width="375" height="116"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <rect key="frame" x="0.0" y="158" width="375" height="134"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <outlet property="dataSource" destination="6eB-Tm-IbK" id="ad2-7v-lg8"/>
                                     <outlet property="delegate" destination="6eB-Tm-IbK" id="VNg-xp-08F"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wYV-sd-9uw">
+                                <rect key="frame" x="319" y="300" width="40" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Thêm"/>
+                                <connections>
+                                    <action selector="add:" destination="6eB-Tm-IbK" eventType="touchUpInside" id="PjH-zp-vMN"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="zMR-X8-v5F"/>
@@ -165,7 +169,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WtW-cg-upt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5221.6000000000004" y="908.9955022488756"/>
+            <point key="canvasLocation" x="5222" y="849"/>
         </scene>
         <!--Danh sách thu-->
         <scene sceneID="cpc-BX-zeH">
@@ -216,12 +220,94 @@
                     <connections>
                         <segue destination="GRT-96-Ka5" kind="relationship" relationship="viewControllers" id="hsp-vc-kZG"/>
                         <segue destination="OWP-Yg-31O" kind="relationship" relationship="viewControllers" id="4Nh-SK-axT"/>
-                        <segue destination="VDT-qa-AmL" kind="relationship" relationship="viewControllers" id="8rG-mK-Fzk"/>
+                        <segue destination="0gT-KM-d6t" kind="relationship" relationship="viewControllers" id="bmr-7J-FZp"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="30X-fv-bBn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2457" y="61"/>
+        </scene>
+        <!--Tài khoản-->
+        <scene sceneID="Fef-zf-5yd">
+            <objects>
+                <tableViewController id="d4d-kc-faC" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="VtV-Qu-Ju4">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <sections>
+                            <tableViewSection id="cTO-v9-b2p">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="exP-HO-8Gr">
+                                        <rect key="frame" x="0.0" y="35" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="exP-HO-8Gr" id="bVt-sH-ilt">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="Thông tin" id="gdF-55-tgm">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="hqY-tZ-NzT" style="IBUITableViewCellStyleDefault" id="o1Z-vV-SCe">
+                                        <rect key="frame" x="0.0" y="135" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="o1Z-vV-SCe" id="uug-SL-Jfq">
+                                            <rect key="frame" x="0.0" y="0.0" width="341" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Danh sách ví" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hqY-tZ-NzT">
+                                                    <rect key="frame" x="16" y="0.0" width="324" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="X5h-VW-nUO" style="IBUITableViewCellStyleDefault" id="lFF-sG-ghq">
+                                        <rect key="frame" x="0.0" y="179" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="lFF-sG-ghq" id="ynA-Vx-drJ">
+                                            <rect key="frame" x="0.0" y="0.0" width="341" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Danh mục thu chi" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="X5h-VW-nUO">
+                                                    <rect key="frame" x="16" y="0.0" width="324" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="10g-Vr-zLp" kind="show" id="7WM-N8-hGM"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="kau-CC-Qn4">
+                                        <rect key="frame" x="0.0" y="223" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kau-CC-Qn4" id="ZKY-za-4L6">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="d4d-kc-faC" id="PoD-h5-3Ln"/>
+                            <outlet property="delegate" destination="d4d-kc-faC" id="rTS-pk-2KB"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Tài khoản" id="doy-FA-HG4"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lat-d5-DNq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2457" y="849"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="oe8-M7-RoD">
@@ -240,7 +326,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QXK-NM-qn0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3416.8000000000002" y="908.9955022488756"/>
+            <point key="canvasLocation" x="3417" y="849"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="o86-py-4U2">
@@ -280,5 +366,27 @@
             </objects>
             <point key="canvasLocation" x="3416.8000000000002" y="-683.20839580209895"/>
         </scene>
+        <!--Item-->
+        <scene sceneID="iai-Pm-N2B">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="0gT-KM-d6t" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="FiN-fB-l0F"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="pks-mT-a3s">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="d4d-kc-faC" kind="relationship" relationship="rootViewController" id="eyb-8o-m0Z"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Id4-mp-pRA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1513" y="849"/>
+        </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="7WM-N8-hGM"/>
+    </inferredMetricsTieBreakers>
 </document>

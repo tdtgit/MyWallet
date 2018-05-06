@@ -17,10 +17,9 @@ class CategoryAddViewController: UIViewController, UITableViewDataSource, UITabl
     
     @IBOutlet weak var typeTableView: UITableView!
     
-    var typeSelected: Int?
     
     @IBAction func add(_ sender: Any) {
-        let newType = WalletType(ID: "", Name: typeName.text!, Detail: typeDetail.text, Section: typeSelected!)
+        let newType = WalletType(ID: "", Name: typeName.text!, Detail: typeDetail.text, Section: (typeTableView.indexPathForSelectedRow?.row)!)
         newType.save()
         self.navigationController?.popViewController(animated: true)
     }
@@ -42,7 +41,6 @@ class CategoryAddViewController: UIViewController, UITableViewDataSource, UITabl
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath) {
             cell.accessoryType = .checkmark
-            typeSelected = indexPath.row
         }
     }
     
@@ -52,9 +50,10 @@ class CategoryAddViewController: UIViewController, UITableViewDataSource, UITabl
         return cell
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        if let cell = typeTableView.cellForRow(at: IndexPath(row: 0, section: 0)) {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == 0 {
             cell.accessoryType = .checkmark
+            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
         }
     }
     
