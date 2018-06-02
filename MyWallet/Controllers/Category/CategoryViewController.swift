@@ -15,7 +15,7 @@ class WalletTypeCell: UITableViewCell {
     @IBOutlet weak var Detail: UILabel!
 }
 
-class CategoryViewController: UIViewController, UITableViewDataSource {
+class CategoryViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var db = Firestore.firestore()
     var WalletTypes = [WalletType]()
     
@@ -49,6 +49,19 @@ class CategoryViewController: UIViewController, UITableViewDataSource {
         }
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let viewController = mainStoryboard.instantiateViewController(withIdentifier: "CategoryAddViewController") as? CategoryAddViewController {
+            viewController.title = "Chỉnh sửa danh mục"
+            viewController.passWalletTypeName = WalletTypes.filter({ $0.Section == indexPath.section})[indexPath.row].Name
+            viewController.passWalletTypeDetail = WalletTypes.filter({ $0.Section == indexPath.section})[indexPath.row].Detail!
+            viewController.passWalletTypeSection = WalletTypes.filter({ $0.Section == indexPath.section})[indexPath.row].Section
+            viewController.passWalletTypeID = WalletTypes.filter({ $0.Section == indexPath.section})[indexPath.row].ID!
+            if let navigator = navigationController {
+                navigator.pushViewController(viewController, animated: true)
+            }
+        }
+    }
+    
     public func populate(){
         var tempWalletTypes = [WalletType]()
         db.collection("users").document((Auth.auth().currentUser?.uid)!).collection("types").getDocuments(completion: { querySnapshot, error in
@@ -70,10 +83,10 @@ class CategoryViewController: UIViewController, UITableViewDataSource {
             if let err = err {
                 print("Error removing document: \(err)")
             } else {
-//                self.populate()
+                self.populate()
+                return
             }
         }
-        self.populate()
     }
     
     override func viewDidLoad() {

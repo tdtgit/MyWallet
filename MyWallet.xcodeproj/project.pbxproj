@@ -8,12 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		C374F711287E299E815DBF6B /* Pods_MyWallet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85A3C732D7A1DC490D841C82 /* Pods_MyWallet.framework */; };
+		E247E4B220A440CA0084B17A /* Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E247E4B120A440CA0084B17A /* Wallet.swift */; };
+		E247E4B520A442870084B17A /* WalletViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E247E4B420A442870084B17A /* WalletViewController.swift */; };
 		E258628A209644E200750470 /* LoginByPhoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2586289209644E200750470 /* LoginByPhoneViewController.swift */; };
 		E258628E2096472900750470 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E258628D2096472900750470 /* CategoryViewController.swift */; };
 		E25862922096542D00750470 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E25862912096542D00750470 /* Login.storyboard */; };
 		E2586294209654AF00750470 /* LoginStartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2586293209654AF00750470 /* LoginStartViewController.swift */; };
 		E258629620966D0600750470 /* SBView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E258629520966D0600750470 /* SBView.swift */; };
 		E25862992097FF3200750470 /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25862982097FF3200750470 /* Users.swift */; };
+		E273FADD20C1F00000837C3F /* WalletAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E273FADC20C1F00000837C3F /* WalletAddViewController.swift */; };
 		E288F8C4209AB63B003175ED /* WalletType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E288F8C3209AB63B003175ED /* WalletType.swift */; };
 		E28A4A862093E4D700FBD546 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28A4A852093E4D700FBD546 /* AppDelegate.swift */; };
 		E28A4A882093E4D700FBD546 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28A4A872093E4D700FBD546 /* ViewController.swift */; };
@@ -30,12 +33,15 @@
 		68CB3409A2D0F147FB37C6C3 /* Pods-MyWallet.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyWallet.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MyWallet/Pods-MyWallet.debug.xcconfig"; sourceTree = "<group>"; };
 		75E9CEA39489802E5043F2FA /* Pods-MyWallet.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyWallet.release.xcconfig"; path = "Pods/Target Support Files/Pods-MyWallet/Pods-MyWallet.release.xcconfig"; sourceTree = "<group>"; };
 		85A3C732D7A1DC490D841C82 /* Pods_MyWallet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyWallet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E247E4B120A440CA0084B17A /* Wallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wallet.swift; sourceTree = "<group>"; };
+		E247E4B420A442870084B17A /* WalletViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletViewController.swift; sourceTree = "<group>"; };
 		E2586289209644E200750470 /* LoginByPhoneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginByPhoneViewController.swift; sourceTree = "<group>"; };
 		E258628D2096472900750470 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		E25862912096542D00750470 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Login.storyboard; path = ../../Login.storyboard; sourceTree = "<group>"; };
 		E2586293209654AF00750470 /* LoginStartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginStartViewController.swift; sourceTree = "<group>"; };
 		E258629520966D0600750470 /* SBView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBView.swift; sourceTree = "<group>"; };
 		E25862982097FF3200750470 /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
+		E273FADC20C1F00000837C3F /* WalletAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAddViewController.swift; sourceTree = "<group>"; };
 		E288F8C3209AB63B003175ED /* WalletType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletType.swift; sourceTree = "<group>"; };
 		E28A4A822093E4D700FBD546 /* MyWallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyWallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E28A4A852093E4D700FBD546 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -71,9 +77,19 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		E247E4B320A442500084B17A /* Wallet */ = {
+			isa = PBXGroup;
+			children = (
+				E247E4B420A442870084B17A /* WalletViewController.swift */,
+				E273FADC20C1F00000837C3F /* WalletAddViewController.swift */,
+			);
+			path = Wallet;
+			sourceTree = "<group>";
+		};
 		E258628520963DC800750470 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				E247E4B320A442500084B17A /* Wallet */,
 				E258628B2096470400750470 /* Category */,
 				E25862862096447700750470 /* Login */,
 				E28A4A872093E4D700FBD546 /* ViewController.swift */,
@@ -105,6 +121,7 @@
 			children = (
 				E25862982097FF3200750470 /* Users.swift */,
 				E288F8C3209AB63B003175ED /* WalletType.swift */,
+				E247E4B120A440CA0084B17A /* Wallet.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -293,11 +310,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E247E4B220A440CA0084B17A /* Wallet.swift in Sources */,
 				E258628A209644E200750470 /* LoginByPhoneViewController.swift in Sources */,
 				E28A4A8E2093E4D700FBD546 /* MyWallet.xcdatamodeld in Sources */,
 				E25862992097FF3200750470 /* Users.swift in Sources */,
+				E247E4B520A442870084B17A /* WalletViewController.swift in Sources */,
 				E28A4A9E2093E86800FBD546 /* Colors.swift in Sources */,
 				E28A4A882093E4D700FBD546 /* ViewController.swift in Sources */,
+				E273FADD20C1F00000837C3F /* WalletAddViewController.swift in Sources */,
 				E258629620966D0600750470 /* SBView.swift in Sources */,
 				E2FC1BF1209F740E0061A72B /* CategoryAddViewController.swift in Sources */,
 				E288F8C4209AB63B003175ED /* WalletType.swift in Sources */,

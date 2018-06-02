@@ -1,87 +1,57 @@
 //
-//  CategoryAddTest.swift
+//  WalletAddViewController.swift
 //  MyWallet
 //
-//  Created by Anh Tuan on 5/7/18.
+//  Created by Anh Tuan on 6/2/18.
 //  Copyright © 2018 Anh Tuan. All rights reserved.
 //
 
 import UIKit
 
-class CategoryAddViewController: UITableViewController {
+class WalletAddViewController: UITableViewController {
+
+    @IBOutlet weak var WalletName: UITextField!
+    @IBOutlet weak var WalletDetail: UITextField!
+    @IBOutlet weak var WalletAmountStart: UITextField!
     
-    @IBOutlet var typeTable: UITableView!
+    var passWalletName = ""
+    var passWalletDetail = ""
+    var passWalletStartAmount = ""
+    var passWalletID = ""
     
-    @IBOutlet weak var typeName: UITextField!
-    @IBOutlet weak var typeDetail: UITextField!
-    
-    var passWalletTypeName = ""
-    var passWalletTypeDetail = ""
-    var passWalletTypeSection = 0
-    var passWalletTypeID = ""
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 1 {
-            return WalletTypeSection.count
+    @IBAction func submit(_ sender: Any) {
+        if(passWalletID.isEmpty){
+            add()
         } else {
-            return super.tableView(tableView, numberOfRowsInSection: section)
+            edit()
         }
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == 1 {
-            let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
-            cell.textLabel?.text = WalletTypeSection[indexPath.row]
-            if !passWalletTypeID.isEmpty, indexPath.row == passWalletTypeSection {
-                cell.accessoryType = .checkmark
-            }
-            return cell
-        } else {
-            return super.tableView(tableView, cellForRowAt: indexPath)
-        }
-    }
-    
-    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        if let cell = tableView.cellForRow(at: indexPath) {
-            cell.accessoryType = .none
-        }
-    }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let cell = tableView.cellForRow(at: indexPath) {
-            cell.accessoryType = .checkmark
-        }
-    }
-    
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.section != 1 {
-            return
-        }
-        if passWalletTypeID.isEmpty {
-            let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 1))
-            cell?.accessoryType = .checkmark
-            return
-        }
-    }
-    
-    @IBAction func add(_ sender: Any) {
-        addNewWalletType()
         self.navigationController?.popViewController(animated: true)
     }
     
-    func addNewWalletType() {
-        let newType = WalletType(ID: "", Name: typeName.text!, Detail: typeDetail.text, Section: (typeTable.indexPathForSelectedRow?.row)!)
-        newType.save()
+    func add() {
+        let newWallet = Wallet(ID: "", Name: WalletName.text!, Detail: WalletDetail.text, StartAmount: Int(WalletAmountStart.text!))
+        newWallet.add()
+    }
+    
+    func edit() {
+        let newWallet = Wallet(ID: passWalletID, Name: WalletName.text!, Detail: WalletDetail.text, StartAmount: Int(WalletAmountStart.text!))
+        newWallet.edit()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if !passWalletTypeID.isEmpty, !passWalletTypeName.isEmpty {
-            typeName.text = passWalletTypeName
-            typeDetail.text = passWalletTypeDetail
+        if !passWalletID.isEmpty, !passWalletName.isEmpty, !passWalletStartAmount.isEmpty {
+            WalletName.text = passWalletName
+            WalletDetail.text = passWalletDetail
+            WalletAmountStart.text = passWalletStartAmount
         }
     }
-
+    
     override func viewDidLoad() {
+//        if !passWalletName.isEmpty, !passWalletDetail.isEmpty, !passWalletStartAmount.isEmpty {
+//            WalletName.text = passWalletName
+//            WalletDetail.text = passWalletDetail
+//            WalletAmountStart.text = passWalletStartAmount
+//        }
         super.viewDidLoad()
 
         // Uncomment the following line to preserve selection between presentations
@@ -91,13 +61,13 @@ class CategoryAddViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    // MARK: - Table view data source
-
+//    override func didReceiveMemoryWarning() {
+//        super.didReceiveMemoryWarning()
+//        // Dispose of any resources that can be recreated.
+//    }
+//
+//    // MARK: - Table view data source
+//
 //    override func numberOfSections(in tableView: UITableView) -> Int {
 //        // #warning Incomplete implementation, return the number of sections
 //        return 0
