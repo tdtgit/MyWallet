@@ -56,6 +56,7 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
             viewController.passWalletTypeDetail = WalletTypes.filter({ $0.Section == indexPath.section})[indexPath.row].Detail!
             viewController.passWalletTypeSection = WalletTypes.filter({ $0.Section == indexPath.section})[indexPath.row].Section
             viewController.passWalletTypeID = WalletTypes.filter({ $0.Section == indexPath.section})[indexPath.row].ID!
+            
             if let navigator = navigationController {
                 navigator.pushViewController(viewController, animated: true)
             }

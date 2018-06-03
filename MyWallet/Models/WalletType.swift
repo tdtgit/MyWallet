@@ -31,11 +31,30 @@ struct WalletType {
         self.CreateDate = CreateDate ?? ""
     }
     
-    func save(){
+    func add(success: @escaping () -> Void){
         db = Firestore.firestore()
         let ref = db.collection("users").document((Auth.auth().currentUser?.uid)!).collection("types")
         
-        ref.addDocument(data: self.dictionary)
+        ref.addDocument(data: self.dictionary) { err in
+            if let err = err {
+                print(err)
+            } else {
+                success()
+            }
+        }
+    }
+    
+    func edit(success: @escaping () -> Void){
+        db = Firestore.firestore()
+        let ref = db.collection("users").document((Auth.auth().currentUser?.uid)!).collection("types").document(self.ID!)
+        
+        ref.setData(self.dictionary) { err in
+            if let err = err {
+                print(err)
+            } else {
+                success()
+            }
+        }
     }
     
     var dictionary: [String: Any] {

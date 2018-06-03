@@ -20,6 +20,8 @@ class CategoryAddViewController: UITableViewController {
     var passWalletTypeSection = 0
     var passWalletTypeID = ""
     
+    var SelectedID = -1 // Row index
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 1 {
             return WalletTypeSection.count
@@ -34,6 +36,7 @@ class CategoryAddViewController: UITableViewController {
             cell.textLabel?.text = WalletTypeSection[indexPath.row]
             if !passWalletTypeID.isEmpty, indexPath.row == passWalletTypeSection {
                 cell.accessoryType = .checkmark
+                SelectedID = indexPath.row
             }
             return cell
         } else {
@@ -48,8 +51,11 @@ class CategoryAddViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let cell = tableView.cellForRow(at: indexPath) {
-            cell.accessoryType = .checkmark
+        for row in 0..<tableView.numberOfRows(inSection: 1) {
+            if let cell = tableView.cellForRow(at: IndexPath(row: row, section: indexPath.section)) {
+                cell.accessoryType = row == indexPath.row ? .checkmark : .none
+                SelectedID = indexPath.row
+            }
         }
     }
     
@@ -64,14 +70,18 @@ class CategoryAddViewController: UITableViewController {
         }
     }
     
-    @IBAction func add(_ sender: Any) {
-        addNewWalletType()
-        self.navigationController?.popViewController(animated: true)
-    }
-    
-    func addNewWalletType() {
-        let newType = WalletType(ID: "", Name: typeName.text!, Detail: typeDetail.text, Section: (typeTable.indexPathForSelectedRow?.row)!)
-        newType.save()
+    @IBAction func submit(_ sender: Any) {
+        if passWalletTypeID.isEmpty {
+            let newType = WalletType(ID: "", Name: typeName.text!, Detail: typeDetail.text, Section: (typeTable.indexPathForSelectedRow?.row)!)
+            newType.add {
+                self.navigationController?.popViewController(animated: true)
+            }
+        } else {
+            let newType = WalletType(ID: passWalletTypeID, Name: typeName.text!, Detail: typeDetail.text, Section: SelectedID)
+            newType.edit {
+                self.navigationController?.popViewController(animated: true)
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

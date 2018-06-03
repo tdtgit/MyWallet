@@ -14,28 +14,23 @@ class WalletAddViewController: UITableViewController {
     @IBOutlet weak var WalletDetail: UITextField!
     @IBOutlet weak var WalletAmountStart: UITextField!
     
-    var passWalletName = ""
-    var passWalletDetail = ""
-    var passWalletStartAmount = ""
-    var passWalletID = ""
+    var passWalletName = "",
+        passWalletDetail = "",
+        passWalletStartAmount = "",
+        passWalletID = ""
     
     @IBAction func submit(_ sender: Any) {
         if(passWalletID.isEmpty){
-            add()
+            let newWallet = Wallet(ID: "", Name: WalletName.text!, Detail: WalletDetail.text, StartAmount: Int(WalletAmountStart.text!))
+            newWallet.add {
+                self.navigationController?.popViewController(animated: true)
+            }
         } else {
-            edit()
+            let newWallet = Wallet(ID: passWalletID, Name: WalletName.text!, Detail: WalletDetail.text, StartAmount: Int(WalletAmountStart.text!))
+            newWallet.edit {
+                self.navigationController?.popViewController(animated: true)
+            }
         }
-        self.navigationController?.popViewController(animated: true)
-    }
-    
-    func add() {
-        let newWallet = Wallet(ID: "", Name: WalletName.text!, Detail: WalletDetail.text, StartAmount: Int(WalletAmountStart.text!))
-        newWallet.add()
-    }
-    
-    func edit() {
-        let newWallet = Wallet(ID: passWalletID, Name: WalletName.text!, Detail: WalletDetail.text, StartAmount: Int(WalletAmountStart.text!))
-        newWallet.edit()
     }
     
     override func viewWillAppear(_ animated: Bool) {
