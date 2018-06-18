@@ -17,6 +17,7 @@ class WalletCell: UITableViewCell {
 }
 
 class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
     var db = Firestore.firestore()
     var Wallets = [Wallet]()
     @IBOutlet weak var WalletTableView: UITableView!

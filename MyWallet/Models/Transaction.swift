@@ -69,10 +69,10 @@ struct Transaction {
         return [
             "name": self.Name,
             "detail": self.Detail ?? "",
-            "amount": self.Amount ?? 0,
+            "amount": self.Amount,
             "wallet": self.WalletID,
             "type": self.TypeID,
-            "createDate": NSDate().timeIntervalSince1970
+            "createDate": self.CreateDate
         ]
     }
 }

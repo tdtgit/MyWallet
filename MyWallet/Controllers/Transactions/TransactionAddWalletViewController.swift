@@ -44,6 +44,7 @@ class TransactionAddWalletViewController: UITableViewController {
     }
     
     public func populate(){
+        let sv = UIViewController.start(onView: self.view)
         var tempWallets = [Wallet]()
         db.collection("users").document((Auth.auth().currentUser?.uid)!).collection("wallets").getDocuments(completion: { querySnapshot, error in
             for document in querySnapshot!.documents {
@@ -56,6 +57,7 @@ class TransactionAddWalletViewController: UITableViewController {
             }
             self.Wallets = tempWallets
             self.tableView.reloadData()
+            UIViewController.stop(spinner: sv)
         })
     }
     

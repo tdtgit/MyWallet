@@ -62,7 +62,7 @@ class TransactionAddViewController: UITableViewController {
     
     @IBAction func dateAddEditing(_ sender: UITextField) {
         let datePickerView = UIDatePicker()
-        datePickerView.datePickerMode = UIDatePickerMode.date
+        datePickerView.datePickerMode = UIDatePickerMode.dateAndTime
         sender.inputView = datePickerView
         datePickerView.addTarget(self, action: #selector(self.datePickerValueChanged), for: UIControlEvents.valueChanged)
     }
@@ -76,6 +76,10 @@ class TransactionAddViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.tableView.reloadData()
+        
+        if (datePicker.text?.isEmpty)! {
+            self.todayPicker()
+        }
     }
     
     override func viewDidLoad() {
@@ -86,8 +90,8 @@ class TransactionAddViewController: UITableViewController {
     
     @objc func todayPicker() {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-        dateFormatter.timeStyle = .none
+        dateFormatter.dateStyle = .short
+        dateFormatter.timeStyle = .short
         datePicker.text = dateFormatter.string(for: Date())
     }
     

@@ -11,7 +11,7 @@ import FirebaseAuth
 import FirebaseFirestore
 
 class TransactionAddTypeViewController: UITableViewController {
-    
+        
     var db = Firestore.firestore()
     var WalletTypes = [WalletType]()
     
@@ -47,6 +47,7 @@ class TransactionAddTypeViewController: UITableViewController {
     }
     
     public func populate(){
+        let sv = UIViewController.start(onView: self.view)
         var tempWalletTypes = [WalletType]()
         db.collection("users").document((Auth.auth().currentUser?.uid)!).collection("types").getDocuments(completion: { querySnapshot, error in
             for document in querySnapshot!.documents {
@@ -59,6 +60,7 @@ class TransactionAddTypeViewController: UITableViewController {
             }
             self.WalletTypes = tempWalletTypes
             self.tableView.reloadData()
+            UIViewController.stop(spinner: sv)
         })
     }
 

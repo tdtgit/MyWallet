@@ -13,6 +13,7 @@
 		5F0A1D9D20D74B3D00CEA90B /* TransactionAddWalletViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0A1D9C20D74B3D00CEA90B /* TransactionAddWalletViewController.swift */; };
 		5F0A1D9F20D7543E00CEA90B /* Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0A1D9E20D7543E00CEA90B /* Toolbar.swift */; };
 		5F0A1DA520D7630000CEA90B /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0A1DA420D7630000CEA90B /* Transaction.swift */; };
+		5F0A1DA720D7714100CEA90B /* Loading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0A1DA620D7714100CEA90B /* Loading.swift */; };
 		C374F711287E299E815DBF6B /* Pods_MyWallet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85A3C732D7A1DC490D841C82 /* Pods_MyWallet.framework */; };
 		E247E4B220A440CA0084B17A /* Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E247E4B120A440CA0084B17A /* Wallet.swift */; };
 		E247E4B520A442870084B17A /* WalletViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E247E4B420A442870084B17A /* WalletViewController.swift */; };
@@ -41,6 +42,7 @@
 		5F0A1D9C20D74B3D00CEA90B /* TransactionAddWalletViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionAddWalletViewController.swift; sourceTree = "<group>"; };
 		5F0A1D9E20D7543E00CEA90B /* Toolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toolbar.swift; sourceTree = "<group>"; };
 		5F0A1DA420D7630000CEA90B /* Transaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
+		5F0A1DA620D7714100CEA90B /* Loading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loading.swift; sourceTree = "<group>"; };
 		68CB3409A2D0F147FB37C6C3 /* Pods-MyWallet.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyWallet.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MyWallet/Pods-MyWallet.debug.xcconfig"; sourceTree = "<group>"; };
 		75E9CEA39489802E5043F2FA /* Pods-MyWallet.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyWallet.release.xcconfig"; path = "Pods/Target Support Files/Pods-MyWallet/Pods-MyWallet.release.xcconfig"; sourceTree = "<group>"; };
 		85A3C732D7A1DC490D841C82 /* Pods_MyWallet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyWallet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -189,6 +191,7 @@
 				E28A4A9D2093E86800FBD546 /* Colors.swift */,
 				E258629520966D0600750470 /* SBView.swift */,
 				5F0A1D9E20D7543E00CEA90B /* Toolbar.swift */,
+				5F0A1DA620D7714100CEA90B /* Loading.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -337,6 +340,7 @@
 			files = (
 				5F0A1D9920D6885500CEA90B /* TransactionAddTypeViewController.swift in Sources */,
 				E247E4B220A440CA0084B17A /* Wallet.swift in Sources */,
+				5F0A1DA720D7714100CEA90B /* Loading.swift in Sources */,
 				E258628A209644E200750470 /* LoginByPhoneViewController.swift in Sources */,
 				E28A4A8E2093E4D700FBD546 /* MyWallet.xcdatamodeld in Sources */,
 				E25862992097FF3200750470 /* Users.swift in Sources */,
