@@ -42,11 +42,6 @@ class WalletAddViewController: UITableViewController {
     }
     
     override func viewDidLoad() {
-//        if !passWalletName.isEmpty, !passWalletDetail.isEmpty, !passWalletStartAmount.isEmpty {
-//            WalletName.text = passWalletName
-//            WalletDetail.text = passWalletDetail
-//            WalletAmountStart.text = passWalletStartAmount
-//        }
         super.viewDidLoad()
 
         // Uncomment the following line to preserve selection between presentations

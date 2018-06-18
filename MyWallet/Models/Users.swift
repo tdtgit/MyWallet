@@ -11,6 +11,10 @@ import FirebaseFirestore
 
 var db: Firestore!
 
+struct UserConfig {
+    static let documentName = "users"
+}
+
 struct User {
     
     let id: String
@@ -18,7 +22,7 @@ struct User {
     
     func exist(completion: @escaping (Bool) -> ()) {
         db = Firestore.firestore()
-        let ref = db.collection("users").document(self.id)
+        let ref = db.collection(UserConfig.documentName).document(self.id)
         
         ref.getDocument { document, error in
             if (document?.exists)! {
@@ -30,7 +34,7 @@ struct User {
     
     func new(){
         db = Firestore.firestore()
-        let ref = db.collection("users").document(self.id)
+        let ref = db.collection(UserConfig.documentName).document(self.id)
         
         ref.setData(self.dictionary)
     }

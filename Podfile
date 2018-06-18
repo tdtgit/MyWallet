@@ -11,5 +11,7 @@ target 'MyWallet' do
   pod 'Firebase/Auth'
   pod 'Firebase/Performance'
   pod 'Firebase/Firestore'
+  
+  pod 'AnyFormatKit'
 
 end
