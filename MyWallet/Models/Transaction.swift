@@ -59,7 +59,6 @@ struct Transaction {
     }
     
     func edit(success: @escaping () -> Void){
-//        db = Firestore.firestore()
         let ref = db.collection(UserConfig.documentName).document((Auth.auth().currentUser?.uid)!).collection(TransactionConfig.documentName).document(self.ID!)
         
         ref.setData(self.dictionary) { err in
@@ -72,16 +71,49 @@ struct Transaction {
     }
     
     func add(success: @escaping () -> Void){
-//        db = Firestore.firestore()
-        let ref = db.collection(UserConfig.documentName).document((Auth.auth().currentUser?.uid)!).collection(TransactionConfig.documentName)
+        let WalletRef = db.collection(UserConfig.documentName).document((Auth.auth().currentUser?.uid)!).collection(WalletConfig.documentName).document(self.WalletID)
         
-        ref.addDocument(data: self.dictionary) { err in
-            if let err = err {
-                print(err)
+        db.runTransaction({ (transaction, errorPointer) -> Any? in
+            let currentWallet: DocumentSnapshot
+            do {
+                try currentWallet = transaction.getDocument(WalletRef)
+            } catch let fetchError as NSError {
+                errorPointer?.pointee = fetchError
+                return nil
+            }
+            
+            let oldAmount = currentWallet.data()["startAmount"] as! Int
+            
+            if self.TypeSection == 1 {
+                transaction.updateData(["startAmount": oldAmount - self.Amount], forDocument: WalletRef)
             } else {
-                success()
+                transaction.updateData(["startAmount": oldAmount + self.Amount], forDocument: WalletRef)
+            }
+            
+            return nil
+        }) { (object, error) in
+            if let error = error {
+                print("Transaction failed: \(error)")
+            } else {
+                self.db.collection(UserConfig.documentName).document((Auth.auth().currentUser?.uid)!).collection(TransactionConfig.documentName).addDocument(data: self.dictionary) { err in
+                    if let err = err {
+                        print(err)
+                    } else {
+                        success()
+                    }
+                }
             }
         }
+        
+        
+//
+//        db.collection(UserConfig.documentName).document((Auth.auth().currentUser?.uid)!).collection(TransactionConfig.documentName).addDocument(data: self.dictionary) { err in
+//            if let err = err {
+//                print(err)
+//            } else {
+//                success()
+//            }
+//        }
     }
     
     var dictionary: [String: Any] {

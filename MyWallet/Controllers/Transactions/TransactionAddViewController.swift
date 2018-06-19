@@ -7,11 +7,16 @@
 //
 
 import UIKit
+import FirebaseAuth
+import FirebaseFirestore
 
 class TransactionAddViewController: UITableViewController {
         
     var passTypeName = "", passTypeID = "",
         passWalletName = "", passWalletID = ""
+    
+    var WalletTypes = [WalletType]()
+    var db = Firestore.firestore()
     
     let datePickerView = UIDatePicker()
     @IBOutlet weak var repeatMonthly: UISwitch!
@@ -22,10 +27,29 @@ class TransactionAddViewController: UITableViewController {
     @IBOutlet weak var TransactionDetail: UITextField!
     
     @IBAction func submit(_ sender: Any) {
-        let newTransaction = Transaction(ID: nil, Name: TransactionName.text!, Detail: TransactionDetail.text, Amount: Int(amountOfMoney.text!)!, WalletID: passWalletID, TypeID: passTypeID, CreateDate: self.datePickerView.date.timeIntervalSince1970, Repeat: repeatMonthly.isOn)
+        let sv = UIViewController.start(onView: self.view)
+        let newTransaction = Transaction(ID: nil, Name: TransactionName.text!, Detail: TransactionDetail.text, Amount: Int(amountOfMoney.text!)!, WalletID: passWalletID, TypeID: passTypeID,
+                                         TypeSection: WalletTypes.first(where: { $0.ID == passTypeID })?.Section,
+                                         CreateDate: self.datePickerView.date.timeIntervalSince1970, Repeat: repeatMonthly.isOn)
         newTransaction.add {
+            UIViewController.stop(spinner: sv)
             self.navigationController?.popViewController(animated: true)
         }
+    }
+    
+    public func populateWalletType(){
+        var tempWalletTypes = [WalletType]()
+        db.collection(UserConfig.documentName).document((Auth.auth().currentUser?.uid)!).collection(WalletTypeConfig.documentName).getDocuments(completion: { querySnapshot, error in
+            for document in querySnapshot!.documents {
+                if let name = document.data()["name"] as? String, let detail = document.data()["detail"] as? String, let type = document.data()["type"] as? Int {
+                    if tempWalletTypes.contains(where: {$0.ID == document.documentID}) == false {
+                        let newType = WalletType(ID: document.documentID, Name: name, Detail: detail, Section: type)
+                        tempWalletTypes.append(newType)
+                    }
+                }
+            }
+            self.WalletTypes = tempWalletTypes
+        })
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -77,6 +101,8 @@ class TransactionAddViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        populateWalletType()
+        
         super.tableView.reloadData()
         
         if (datePicker.text?.isEmpty)! {

@@ -30,7 +30,7 @@ class TransactionAddWalletViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
         cell.textLabel?.text = Wallets[indexPath.row].Name
-        cell.detailTextLabel?.text = String(Wallets[indexPath.row].StartAmount!)
+        cell.detailTextLabel?.text = moneyFormat.formattedText(from: String(Wallets[indexPath.row].StartAmount!))
         return cell
     }
     

@@ -64,6 +64,52 @@ class TransactionViewController: UIViewController, UITableViewDelegate, UITableV
         return cell
     }
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            delete(id: Transactions.filter({ TimestampToDate(time: $0.CreateDate, format: "dd/MM/yyyy") == dateSection[indexPath.section] })[indexPath.row].ID!)
+        }
+    }
+    
+    func delete(id: String){
+        let sv = UIViewController.start(onView: self.view)
+        
+        let delTransaction = Transactions.filter({ $0.ID == id })[0]
+        
+        let WalletRef = db.collection(UserConfig.documentName).document((Auth.auth().currentUser?.uid)!).collection(WalletConfig.documentName).document(delTransaction.WalletID)
+        
+        db.runTransaction({ (transaction, errorPointer) -> Any? in
+            let currentWallet: DocumentSnapshot
+            do {
+                try currentWallet = transaction.getDocument(WalletRef)
+            } catch let fetchError as NSError {
+                errorPointer?.pointee = fetchError
+                return nil
+            }
+            
+            let oldAmount = currentWallet.data()["startAmount"] as! Int
+            
+            if delTransaction.TypeSection == 1 {
+                transaction.updateData(["startAmount": oldAmount + delTransaction.Amount], forDocument: WalletRef)
+            } else {
+                transaction.updateData(["startAmount": oldAmount - delTransaction.Amount], forDocument: WalletRef)
+            }
+            
+            return nil
+        }) { (object, error) in
+            if let error = error {
+                print("Transaction failed: \(error)")
+            } else {
+                self.db.collection(UserConfig.documentName).document((Auth.auth().currentUser?.uid)!).collection(TransactionConfig.documentName).document(id).delete() { err in
+                    if let err = err {
+                        print(err)
+                    }
+                    UIViewController.stop(spinner: sv)
+                    self.populate()
+                }
+            }
+        }
+    }
+    
     public func populateWalletType(){
         var tempWalletTypes = [WalletType]()
         db.collection(UserConfig.documentName).document((Auth.auth().currentUser?.uid)!).collection(WalletTypeConfig.documentName).getDocuments(completion: { querySnapshot, error in
@@ -134,7 +180,6 @@ class TransactionViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        dateSection = []
         populateWalletType()
         populateWallet()
         populate()
