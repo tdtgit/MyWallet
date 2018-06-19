@@ -12,4 +12,4 @@ let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
 let MainView:UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "MainViewController") as UIViewController
 
 let loginStoryboard = UIStoryboard(name: "Login", bundle: Bundle.main)
-let LoginStartView:UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "LoginStartViewController") as UIViewController
+let LoginStartView:UIViewController = loginStoryboard.instantiateViewController(withIdentifier: "LoginStartViewController") as UIViewController

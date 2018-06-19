@@ -17,6 +17,8 @@ class WalletTypeCell: UITableViewCell {
 
 class CategoryViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var db = Firestore.firestore()
+    var settings = FirestoreSettings()
+    
     var WalletTypes = [WalletType]()
     
     @IBOutlet weak var TypeTableView: UITableView!
@@ -64,6 +66,7 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     public func populate(){
+        let sv = UIViewController.start(onView: self.view)
         var tempWalletTypes = [WalletType]()
         db.collection("users").document((Auth.auth().currentUser?.uid)!).collection("types").getDocuments(completion: { querySnapshot, error in
             for document in querySnapshot!.documents {
@@ -76,6 +79,7 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
             }
             self.WalletTypes = tempWalletTypes
             self.TypeTableView.reloadData()
+            UIViewController.stop(spinner: sv)
         })
     }
     
@@ -95,6 +99,8 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        settings.isPersistenceEnabled = true
+        db.settings = settings
         populate()
     }
 

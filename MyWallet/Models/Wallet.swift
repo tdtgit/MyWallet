@@ -53,6 +53,7 @@ struct Wallet {
         ref.addDocument(data: self.dictionary) { err in
             if let err = err {
                 print(err)
+                return
             } else {
                 success()
             }

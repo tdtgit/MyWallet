@@ -19,6 +19,8 @@ class WalletCell: UITableViewCell {
 class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var db = Firestore.firestore()
+    let settings = FirestoreSettings()
+    
     var Wallets = [Wallet]()
     @IBOutlet weak var WalletTableView: UITableView!
     
@@ -38,7 +40,7 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let cell = tableView.dequeueReusableCell(withIdentifier: "WalletCell", for: indexPath) as! WalletCell
         cell.walletName.text = Wallets[indexPath.row].Name
         cell.walletDetail.text = Wallets[indexPath.row].Detail
-        cell.walletAmount.text = String(Wallets[indexPath.row].StartAmount!)
+        cell.walletAmount.text = moneyFormat.formattedText(from: String(Wallets[indexPath.row].StartAmount!))
         return cell
     }
     
@@ -89,6 +91,8 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        settings.isPersistenceEnabled = true
+        db.settings = settings
         populate()
     }
 

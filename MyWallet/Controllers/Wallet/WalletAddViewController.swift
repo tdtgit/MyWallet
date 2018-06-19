@@ -20,14 +20,17 @@ class WalletAddViewController: UITableViewController {
         passWalletID = ""
     
     @IBAction func submit(_ sender: Any) {
+        let sv = UIViewController.start(onView: self.view)
         if(passWalletID.isEmpty){
             let newWallet = Wallet(ID: "", Name: WalletName.text!, Detail: WalletDetail.text, StartAmount: Int(WalletAmountStart.text!))
             newWallet.add {
+                UIViewController.stop(spinner: sv)
                 self.navigationController?.popViewController(animated: true)
             }
         } else {
             let newWallet = Wallet(ID: passWalletID, Name: WalletName.text!, Detail: WalletDetail.text, StartAmount: Int(WalletAmountStart.text!))
             newWallet.edit {
+                UIViewController.stop(spinner: sv)
                 self.navigationController?.popViewController(animated: true)
             }
         }

@@ -22,6 +22,9 @@ struct WalletType {
     var Section: Int
     var CreateDate: String
     
+    var db = Firestore.firestore()
+    let settings = FirestoreSettings()
+    
     init(ID: String? = nil,
         Name: String,
         Detail: String? = nil,
@@ -33,10 +36,12 @@ struct WalletType {
         self.Detail = Detail
         self.Section = Section
         self.CreateDate = CreateDate ?? ""
+        
+        settings.isPersistenceEnabled = true
+        db.settings = settings
     }
     
     func add(success: @escaping () -> Void){
-        db = Firestore.firestore()
         let ref = db.collection(UserConfig.documentName).document((Auth.auth().currentUser?.uid)!).collection(WalletTypeConfig.documentName)
         
         ref.addDocument(data: self.dictionary) { err in
@@ -49,7 +54,6 @@ struct WalletType {
     }
     
     func edit(success: @escaping () -> Void){
-        db = Firestore.firestore()
         let ref = db.collection(UserConfig.documentName).document((Auth.auth().currentUser?.uid)!).collection(WalletTypeConfig.documentName).document(self.ID!)
         
         ref.setData(self.dictionary) { err in

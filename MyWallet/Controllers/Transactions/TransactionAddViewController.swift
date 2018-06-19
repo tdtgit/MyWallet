@@ -13,13 +13,16 @@ class TransactionAddViewController: UITableViewController {
     var passTypeName = "", passTypeID = "",
         passWalletName = "", passWalletID = ""
     
+    let datePickerView = UIDatePicker()
+    @IBOutlet weak var repeatMonthly: UISwitch!
+    
     @IBOutlet weak var TransactionName: UITextField!
     @IBOutlet weak var datePicker: UITextField!
     @IBOutlet weak var amountOfMoney: UITextField!
     @IBOutlet weak var TransactionDetail: UITextField!
     
     @IBAction func submit(_ sender: Any) {
-        let newTransaction = Transaction(ID: nil, Name: TransactionName.text!, Detail: TransactionDetail.text, Amount: Int(amountOfMoney.text!)!, WalletID: passWalletID, TypeID: passTypeID)
+        let newTransaction = Transaction(ID: nil, Name: TransactionName.text!, Detail: TransactionDetail.text, Amount: Int(amountOfMoney.text!)!, WalletID: passWalletID, TypeID: passTypeID, CreateDate: self.datePickerView.date.timeIntervalSince1970, Repeat: repeatMonthly.isOn)
         newTransaction.add {
             self.navigationController?.popViewController(animated: true)
         }
@@ -61,7 +64,6 @@ class TransactionAddViewController: UITableViewController {
     }
     
     @IBAction func dateAddEditing(_ sender: UITextField) {
-        let datePickerView = UIDatePicker()
         datePickerView.datePickerMode = UIDatePickerMode.dateAndTime
         sender.inputView = datePickerView
         datePickerView.addTarget(self, action: #selector(self.datePickerValueChanged), for: UIControlEvents.valueChanged)
@@ -69,8 +71,8 @@ class TransactionAddViewController: UITableViewController {
     
     @objc func datePickerValueChanged(sender: UIDatePicker) {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-        dateFormatter.timeStyle = .none
+        dateFormatter.dateStyle = .short
+        dateFormatter.timeStyle = .short
         datePicker.text = dateFormatter.string(from: sender.date)
     }
     

@@ -15,7 +15,9 @@ class LoginByPhoneViewController: UIViewController {
     @IBOutlet weak var btnLogin: UIButton!
     
     func LoginSuccess(){
-        self.present(MainView, animated: true)
+        if let main:UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "MainViewController") as UIViewController {
+            self.present(main, animated: true, completion: nil)
+        }
     }
     
     func showErr(err: String){

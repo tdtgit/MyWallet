@@ -20,7 +20,11 @@ struct Transaction {
     var Amount: Int
     var WalletID: String
     var TypeID: String
-    var CreateDate: String
+    var CreateDate: Double
+    var Repeat: Bool?
+    
+    var TypeName: String?
+    var TypeSection: Int?
     
     init(ID: String? = nil,
          Name: String,
@@ -28,7 +32,10 @@ struct Transaction {
          Amount: Int,
          WalletID: String,
          TypeID: String,
-         CreateDate: String? = nil) {
+         TypeName: String? = "",
+         TypeSection: Int? = 0,
+         CreateDate: Double,
+         Repeat: Bool? = false) {
         
         self.ID = ID
         self.Name = Name
@@ -36,7 +43,11 @@ struct Transaction {
         self.Amount = Amount
         self.WalletID = WalletID
         self.TypeID = TypeID
-        self.CreateDate = CreateDate ?? ""
+        self.CreateDate = CreateDate
+        self.Repeat = Repeat
+        
+        self.TypeName = TypeName
+        self.TypeSection = TypeSection
     }
     
     func edit(success: @escaping () -> Void){
@@ -72,7 +83,8 @@ struct Transaction {
             "amount": self.Amount,
             "wallet": self.WalletID,
             "type": self.TypeID,
-            "createDate": self.CreateDate
+            "createDate": self.CreateDate,
+            "repeat": self.Repeat ?? false
         ]
     }
 }

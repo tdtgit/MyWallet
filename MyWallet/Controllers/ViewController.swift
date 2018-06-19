@@ -7,8 +7,12 @@
 //
 
 import UIKit
+import FirebaseAuth
+import FirebaseFirestore
 
 class ViewController: UIViewController {
+    
+    var db = Firestore.firestore()
     
     override func viewDidLoad() {
         super.viewDidLoad()

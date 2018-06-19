@@ -51,6 +51,9 @@ class CategoryAddViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section != 1 {
+            return
+        }
         for row in 0..<tableView.numberOfRows(inSection: 1) {
             if let cell = tableView.cellForRow(at: IndexPath(row: row, section: indexPath.section)) {
                 cell.accessoryType = row == indexPath.row ? .checkmark : .none
@@ -71,20 +74,24 @@ class CategoryAddViewController: UITableViewController {
     }
     
     @IBAction func submit(_ sender: Any) {
+        let sv = UIViewController.start(onView: self.view)
         if passWalletTypeID.isEmpty {
             let newType = WalletType(ID: "", Name: typeName.text!, Detail: typeDetail.text, Section: (typeTable.indexPathForSelectedRow?.row)!)
             newType.add {
                 self.navigationController?.popViewController(animated: true)
+                UIViewController.stop(spinner: sv)
             }
         } else {
             let newType = WalletType(ID: passWalletTypeID, Name: typeName.text!, Detail: typeDetail.text, Section: SelectedID)
             newType.edit {
                 self.navigationController?.popViewController(animated: true)
+                UIViewController.stop(spinner: sv)
             }
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
         if !passWalletTypeID.isEmpty, !passWalletTypeName.isEmpty {
             typeName.text = passWalletTypeName
             typeDetail.text = passWalletTypeDetail
