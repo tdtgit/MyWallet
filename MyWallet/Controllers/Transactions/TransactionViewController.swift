@@ -19,10 +19,7 @@ class TransactionCell: UITableViewCell {
 
 class TransactionViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, backToTransactionViewFromDateRange {
     
-    let settings = FirestoreSettings()
-    
     var db = Firestore.firestore()
-    
     
     var Transactions = [Transaction]()
     var Wallets = [Wallet]()
@@ -44,11 +41,11 @@ class TransactionViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return dateSection.count
+        return Transactions.count > 0 ? dateSection.count : 1
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return dateSection[section]
+        return Transactions.count > 0 ? dateSection[section] : "Không có dữ liệu"
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -58,10 +55,12 @@ class TransactionViewController: UIViewController, UITableViewDelegate, UITableV
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TransactionCell", for: indexPath) as! TransactionCell
-        cell.transactionName.text = Transactions.filter({ TimestampToDate(time: $0.CreateDate, format: "dd/MM/yyyy") == dateSection[indexPath.section] })[indexPath.row].Name
-        cell.transactionDate.text = TimestampToDate(time: Transactions.filter({ TimestampToDate(time: $0.CreateDate, format: "dd/MM/yyyy") == dateSection[indexPath.section] })[indexPath.row].CreateDate, format: "HH:mm")
-        cell.transactionTypeName.text = Transactions.filter({ TimestampToDate(time: $0.CreateDate, format: "dd/MM/yyyy") == dateSection[indexPath.section] })[indexPath.row].TypeName
-        cell.transactionAmount.text = moneyFormat.formattedText(from: String(Transactions.filter({ TimestampToDate(time: $0.CreateDate, format: "dd/MM/yyyy") == dateSection[indexPath.section] })[indexPath.row].Amount))
+        let tmpTransaction = Transactions.filter({ TimestampToDate(time: $0.CreateDate, format: "dd/MM/yyyy") == dateSection[indexPath.section] })[indexPath.row]
+        cell.transactionName.text = tmpTransaction.Name
+        cell.transactionDate.text = TimestampToDate(time: tmpTransaction.CreateDate, format: "HH:mm")
+        cell.transactionTypeName.text = tmpTransaction.TypeName
+        cell.transactionAmount.text = moneyFormat.formattedText(from: String(tmpTransaction.Amount))
+        cell.transactionAmount.textColor = tmpTransaction.TypeSection == 1 ? AppColor.Money.outcome : AppColor.Money.income
         return cell
     }
     
@@ -98,7 +97,7 @@ class TransactionViewController: UIViewController, UITableViewDelegate, UITableV
     public func populate(){
         let sv = UIViewController.start(onView: self.view)
         var tempTransactions = [Transaction]()
-        db.collection(UserConfig.documentName).document((Auth.auth().currentUser?.uid)!).collection(TransactionConfig.documentName).getDocuments(completion: { querySnapshot, error in
+        db.collection(UserConfig.documentName).document((Auth.auth().currentUser?.uid)!).collection(TransactionConfig.documentName).order(by: "createDate", descending: true).getDocuments(completion: { querySnapshot, error in
             for document in querySnapshot!.documents {
                 if  let name = document.data()["name"] as? String,
                     let detail = document.data()["detail"] as? String,
@@ -107,7 +106,17 @@ class TransactionViewController: UIViewController, UITableViewDelegate, UITableV
                     let walletID = document.data()["wallet"] as? String,
                     let createDate = document.data()["createDate"] as? Double {
                     if tempTransactions.contains(where: {$0.ID == document.documentID}) == false {
-                        let newType = Transaction(ID: document.documentID, Name: name, Detail: detail, Amount: Int(amount), WalletID: walletID, TypeID: typeID, CreateDate: createDate, Repeat: true)
+                        let newType = Transaction(
+                            ID: document.documentID,
+                            Name: name,
+                            Detail: detail,
+                            Amount: Int(amount),
+                            WalletID: walletID,
+                            TypeID: typeID,
+                            TypeName: self.WalletTypes.filter({ $0.ID == typeID })[0].Name,
+                            TypeSection: self.WalletTypes.filter({ $0.ID == typeID })[0].Section,
+                            CreateDate: createDate,
+                            Repeat: true)
                         tempTransactions.append(newType)
                         
                         let dateRange: String = TimestampToDate(time: createDate, format: "dd/MM/yyyy")
@@ -117,6 +126,7 @@ class TransactionViewController: UIViewController, UITableViewDelegate, UITableV
                     }
                 }
             }
+            self.dateSection.sort(by: {$0 > $1 })
             self.Transactions = tempTransactions
             self.transactionTable.reloadData()
             UIViewController.stop(spinner: sv)
@@ -124,9 +134,7 @@ class TransactionViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        settings.isPersistenceEnabled = true
-        db.settings = settings
-        
+        dateSection = []
         populateWalletType()
         populateWallet()
         populate()
@@ -134,11 +142,6 @@ class TransactionViewController: UIViewController, UITableViewDelegate, UITableV
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Hiển thị toàn bộ
-//        if dateRangeData == -1 {
-//            dateRangeSelect(select: 0)
-//        }
     }
     
     func backFromDateRange(select: Int, rangeArr: Array<Any>) {

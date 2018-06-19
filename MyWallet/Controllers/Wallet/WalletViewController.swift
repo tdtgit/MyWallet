@@ -80,13 +80,15 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func delete(id: String){
+        let sv = UIViewController.start(onView: self.view)
         db.collection("users").document((Auth.auth().currentUser?.uid)!).collection("wallets").document(id).delete() { (err) in
             if let err = err {
                 print("Error removing document: \(err)")
             } else {
                 self.populate()
-                return
             }
+            UIViewController.stop(spinner: sv)
+            return
         }
     }
     

@@ -84,11 +84,14 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func delete(id: String){
+        let sv = UIViewController.start(onView: self.view)
         db.collection("users").document((Auth.auth().currentUser?.uid)!).collection("types").document(id).delete() { (err) in
             if let err = err {
                 print("Error removing document: \(err)")
+                UIViewController.stop(spinner: sv)
             } else {
                 self.populate()
+                UIViewController.stop(spinner: sv)
                 return
             }
         }

@@ -6,8 +6,7 @@
 //  Copyright © 2018 Anh Tuan. All rights reserved.
 //
 
-import FirebaseFirestore
-import FirebaseAuth
+import Firebase
 
 struct TransactionConfig {
     static let documentName = "transactions"
@@ -25,6 +24,8 @@ struct Transaction {
     
     var TypeName: String?
     var TypeSection: Int?
+    
+    var db: Firestore!
     
     init(ID: String? = nil,
          Name: String,
@@ -48,10 +49,17 @@ struct Transaction {
         
         self.TypeName = TypeName
         self.TypeSection = TypeSection
+        
+        // [START setup]
+        let settings = FirestoreSettings()
+        
+        Firestore.firestore().settings = settings
+        // [END setup]
+        db = Firestore.firestore()
     }
     
     func edit(success: @escaping () -> Void){
-        db = Firestore.firestore()
+//        db = Firestore.firestore()
         let ref = db.collection(UserConfig.documentName).document((Auth.auth().currentUser?.uid)!).collection(TransactionConfig.documentName).document(self.ID!)
         
         ref.setData(self.dictionary) { err in
@@ -64,7 +72,7 @@ struct Transaction {
     }
     
     func add(success: @escaping () -> Void){
-        db = Firestore.firestore()
+//        db = Firestore.firestore()
         let ref = db.collection(UserConfig.documentName).document((Auth.auth().currentUser?.uid)!).collection(TransactionConfig.documentName)
         
         ref.addDocument(data: self.dictionary) { err in

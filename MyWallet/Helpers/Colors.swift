@@ -16,4 +16,8 @@ struct AppColor {
     struct TextField {
         static let BorderColor = AppColor.Primary.Light
     }
+    struct Money {
+        static let income = UIColor(red: 22/255, green: 150/255, blue: 133/255, alpha: 1)
+        static let outcome = UIColor(red: 238/255, green: 82/255, blue: 83/255, alpha: 1) // rgb(238, 82, 83)
+    }
 }

@@ -44,9 +44,9 @@ class PredictViewController: UITableViewController {
         if indexPath.row == 0 {
             switch indexPath.section {
             case 0:
-                cell.contentView.backgroundColor = UIColor(red: 22/255, green: 150/255, blue: 133/255, alpha: 1)
+                cell.contentView.backgroundColor = AppColor.Money.income
             case 1:
-                cell.contentView.backgroundColor = UIColor(red: 253/255, green: 203/255, blue: 110/255, alpha: 1)
+                cell.contentView.backgroundColor = AppColor.Money.outcome
             default:
                 cell.contentView.backgroundColor = UIColor.gray
             }
