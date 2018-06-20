@@ -16,7 +16,7 @@ class DateRangeViewController: UIViewController, UITableViewDelegate, UITableVie
     
     var delegate: backToTransactionViewFromDateRange? = nil
     
-    let dateRange = ["Tuần này", "Tháng này", "Quý này", "Năm này"]
+    let dateRange = ["Tất cả thời gian", "Tuần này", "Tháng này", "Quý này", "Năm này"]
     var dateRangeData = -1
 
     @IBOutlet weak var popupView: UIView!

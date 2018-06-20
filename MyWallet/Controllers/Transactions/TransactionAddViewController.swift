@@ -15,6 +15,12 @@ class TransactionAddViewController: UITableViewController {
     var passTypeName = "", passTypeID = "",
         passWalletName = "", passWalletID = ""
     
+    // From TransVC
+    var fpassTypeName = "", fpassTypeID = "",
+    fpassWalletName = "", fpassWalletID = ""
+    
+    var passTransaction: Transaction? = nil
+    
     var WalletTypes = [WalletType]()
     var db = Firestore.firestore()
     
@@ -28,12 +34,20 @@ class TransactionAddViewController: UITableViewController {
     
     @IBAction func submit(_ sender: Any) {
         let sv = UIViewController.start(onView: self.view)
-        let newTransaction = Transaction(ID: nil, Name: TransactionName.text!, Detail: TransactionDetail.text, Amount: Int(amountOfMoney.text!)!, WalletID: passWalletID, TypeID: passTypeID,
-                                         TypeSection: WalletTypes.first(where: { $0.ID == passTypeID })?.Section,
-                                         CreateDate: self.datePickerView.date.timeIntervalSince1970, Repeat: repeatMonthly.isOn)
-        newTransaction.add {
-            UIViewController.stop(spinner: sv)
-            self.navigationController?.popViewController(animated: true)
+        if fpassWalletID.isEmpty && fpassTypeID.isEmpty {
+            let newTransaction = Transaction(ID: nil, Name: TransactionName.text!, Detail: TransactionDetail.text, Amount: Int(amountOfMoney.text!)!, WalletID: passWalletID, TypeID: passTypeID,
+                                             TypeSection: WalletTypes.first(where: { $0.ID == passTypeID })?.Section,
+                                             CreateDate: self.datePickerView.date.timeIntervalSince1970, Repeat: repeatMonthly.isOn)
+            newTransaction.add {
+                UIViewController.stop(spinner: sv)
+                self.navigationController?.popViewController(animated: true)
+            }
+        } else {
+            let newTransaction = Transaction(ID: passTransaction?.ID, Name: TransactionName.text!, Detail: TransactionDetail.text, Amount: Int(amountOfMoney.text!)!, WalletID: passWalletID, TypeID: passTypeID, TypeSection: WalletTypes.first(where: { $0.ID == passTypeID })?.Section, CreateDate: self.datePickerView.date.timeIntervalSince1970, Repeat: repeatMonthly.isOn)
+            newTransaction.add {
+                UIViewController.stop(spinner: sv)
+                self.navigationController?.popViewController(animated: true)
+            }
         }
     }
     
@@ -58,16 +72,20 @@ class TransactionAddViewController: UITableViewController {
         
         switch indexPath.section {
         case 1:
-            if passTypeID.isEmpty {
-                cell.detailTextLabel?.text = "Chưa chọn"
-            } else {
+            if !passTypeID.isEmpty {
                 cell.detailTextLabel?.text = passTypeName
+            } else if !fpassTypeID.isEmpty {
+                cell.detailTextLabel?.text = fpassTypeName
+            } else {
+                cell.detailTextLabel?.text = "Chưa chọn"
             }
         case 2:
-            if passWalletID.isEmpty {
-                cell.detailTextLabel?.text = "Chưa chọn"
-            } else {
+            if !passWalletID.isEmpty {
                 cell.detailTextLabel?.text = passWalletName
+            } else if !fpassWalletID.isEmpty {
+                cell.detailTextLabel?.text = fpassWalletName
+            } else {
+                cell.detailTextLabel?.text = "Chưa chọn"
             }
         default:
             break
@@ -102,9 +120,14 @@ class TransactionAddViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         populateWalletType()
-        
+        if !fpassTypeID.isEmpty && !fpassWalletID.isEmpty {
+            TransactionName.text = passTransaction?.Name
+            amountOfMoney.text = String((passTransaction?.Amount)!)
+            datePicker.text = TimestampToDate(time: (passTransaction?.CreateDate)!, format: "dd/MM/yyyy HH:mm")
+            TransactionDetail.text = passTransaction?.Detail
+            repeatMonthly.isOn = (passTransaction?.Repeat)!
+        }
         super.tableView.reloadData()
-        
         if (datePicker.text?.isEmpty)! {
             self.todayPicker()
         }

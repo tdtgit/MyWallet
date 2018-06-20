@@ -50,7 +50,6 @@ class TransactionViewController: UIViewController, UITableViewDelegate, UITableV
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return Transactions.filter({ TimestampToDate(time: $0.CreateDate, format: "dd/MM/yyyy") == dateSection[section] }).count
-//        return Transactions.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -67,6 +66,21 @@ class TransactionViewController: UIViewController, UITableViewDelegate, UITableV
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             delete(id: Transactions.filter({ TimestampToDate(time: $0.CreateDate, format: "dd/MM/yyyy") == dateSection[indexPath.section] })[indexPath.row].ID!)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let viewController = mainStoryboard.instantiateViewController(withIdentifier: "TransactionAddViewController") as? TransactionAddViewController {
+            let tmpTransaction = Transactions.filter({ TimestampToDate(time: $0.CreateDate, format: "dd/MM/yyyy") == dateSection[indexPath.section] })[indexPath.row]
+            viewController.title = "Chỉnh sửa giao dịch"
+            viewController.passTransaction = tmpTransaction
+            viewController.fpassTypeName = WalletTypes.filter({$0.ID == tmpTransaction.TypeID})[0].Name
+            viewController.fpassTypeID = tmpTransaction.TypeID
+            viewController.fpassWalletName = Wallets.filter({$0.ID == tmpTransaction.WalletID})[0].Name
+            viewController.fpassWalletID = tmpTransaction.WalletID
+            if let navigator = navigationController {
+                navigator.pushViewController(viewController, animated: true)
+            }
         }
     }
     
