@@ -58,14 +58,40 @@ struct Transaction {
         db = Firestore.firestore()
     }
     
-    func edit(success: @escaping () -> Void){
-        let ref = db.collection(UserConfig.documentName).document((Auth.auth().currentUser?.uid)!).collection(TransactionConfig.documentName).document(self.ID!)
+    func edit(tmpTransaction: Transaction, success: @escaping () -> Void){
+        let WalletRef = db.collection(UserConfig.documentName).document((Auth.auth().currentUser?.uid)!).collection(WalletConfig.documentName).document(self.WalletID)
         
-        ref.setData(self.dictionary) { err in
-            if let err = err {
-                print(err)
+        db.runTransaction({ (transaction, errorPointer) -> Any? in
+            let currentWallet: DocumentSnapshot
+            do {
+                try currentWallet = transaction.getDocument(WalletRef)
+            } catch let fetchError as NSError {
+                errorPointer?.pointee = fetchError
+                return nil
+            }
+            
+            let oldAmount = currentWallet.data()["startAmount"] as! Int
+            let oldTransactionAmount = tmpTransaction.Amount
+            if self.TypeSection == 1 {
+                transaction.updateData(["startAmount": oldAmount + oldTransactionAmount - self.Amount], forDocument: WalletRef)
             } else {
-                success()
+                transaction.updateData(["startAmount": oldAmount - oldTransactionAmount + self.Amount], forDocument: WalletRef)
+            }
+            
+            return nil
+        }) { (object, error) in
+            if let error = error {
+                print("Transaction failed: \(error)")
+            } else {
+                let ref = self.db.collection(UserConfig.documentName).document((Auth.auth().currentUser?.uid)!).collection(TransactionConfig.documentName).document(self.ID!)
+                
+                ref.setData(self.dictionary) { err in
+                    if let err = err {
+                        print(err)
+                    } else {
+                        success()
+                    }
+                }
             }
         }
     }

@@ -34,20 +34,31 @@ class TransactionAddViewController: UITableViewController {
     
     @IBAction func submit(_ sender: Any) {
         let sv = UIViewController.start(onView: self.view)
+        
+        if passTypeID.isEmpty {
+            passTypeID = fpassTypeID
+        }
+        if passWalletID.isEmpty {
+            passWalletID = fpassWalletID
+        }
+        
         if fpassWalletID.isEmpty && fpassTypeID.isEmpty {
-            let newTransaction = Transaction(ID: nil, Name: TransactionName.text!, Detail: TransactionDetail.text, Amount: Int(amountOfMoney.text!)!, WalletID: passWalletID, TypeID: passTypeID,
-                                             TypeSection: WalletTypes.first(where: { $0.ID == passTypeID })?.Section,
-                                             CreateDate: self.datePickerView.date.timeIntervalSince1970, Repeat: repeatMonthly.isOn)
+            let newTransaction = Transaction(ID: nil, Name: TransactionName.text!, Detail: TransactionDetail.text, Amount: Int(amountOfMoney.text!)!, WalletID: passWalletID, TypeID: passTypeID, TypeSection: WalletTypes.first(where: { $0.ID == passTypeID })?.Section, CreateDate: self.datePickerView.date.timeIntervalSince1970, Repeat: repeatMonthly.isOn)
             newTransaction.add {
                 UIViewController.stop(spinner: sv)
                 self.navigationController?.popViewController(animated: true)
             }
         } else {
             let newTransaction = Transaction(ID: passTransaction?.ID, Name: TransactionName.text!, Detail: TransactionDetail.text, Amount: Int(amountOfMoney.text!)!, WalletID: passWalletID, TypeID: passTypeID, TypeSection: WalletTypes.first(where: { $0.ID == passTypeID })?.Section, CreateDate: self.datePickerView.date.timeIntervalSince1970, Repeat: repeatMonthly.isOn)
-            newTransaction.add {
+            newTransaction.edit(tmpTransaction: passTransaction!, success: {
                 UIViewController.stop(spinner: sv)
                 self.navigationController?.popViewController(animated: true)
-            }
+            })
+//
+//            newTransaction.edit {
+//                UIViewController.stop(spinner: sv)
+//                self.navigationController?.popViewController(animated: true)
+//            }
         }
     }
     
