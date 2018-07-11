@@ -17,7 +17,7 @@ class TransactionCell: UITableViewCell {
     @IBOutlet weak var transactionTypeName: UILabel!
 }
 
-class TransactionViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, backToTransactionViewFromDateRange {
+class TransactionViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, backToTransactionViewFromDateRange, backToTransactionViewFromType {
     
     var db = Firestore.firestore()
     
@@ -29,8 +29,18 @@ class TransactionViewController: UIViewController, UITableViewDelegate, UITableV
     
     @IBOutlet weak var transactionTable: UITableView!
     @IBOutlet weak var dateRangeButton: UIBarButtonItem!
+    @IBOutlet weak var typeButton: UIBarButtonItem!
     
-    var dateRangeData = -1
+    var dateRangeData = -2
+    var typeData = -2 // -2 chưa chọn, -1 đã chọn nhưng tất cả
+    
+    @IBAction func displayTypePopup(_ sender: Any) {
+        let typePopupView = mainStoryboard.instantiateViewController(withIdentifier: "typeViewTransactionPopup") as! TypeViewController
+        typePopupView.delegate = self
+        typePopupView.typeData = typeData
+        typePopupView.modalPresentationStyle = .overCurrentContext
+        self.present(typePopupView, animated: true, completion: nil)
+    }
     
     @IBAction func displayDateRangePopup(_ sender: Any) {
         let dateRangePopupView = mainStoryboard.instantiateViewController(withIdentifier: "dateRangeTransactionPopup") as! DateRangeViewController
@@ -125,6 +135,7 @@ class TransactionViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     public func populateWalletType(){
+        let sv = UIViewController.start(onView: self.view)
         var tempWalletTypes = [WalletType]()
         db.collection(UserConfig.documentName).document((Auth.auth().currentUser?.uid)!).collection(WalletTypeConfig.documentName).getDocuments(completion: { querySnapshot, error in
             for document in querySnapshot!.documents {
@@ -136,10 +147,13 @@ class TransactionViewController: UIViewController, UITableViewDelegate, UITableV
                 }
             }
             self.WalletTypes = tempWalletTypes
+            UIViewController.stop(spinner: sv)
+            self.populateWallet()
         })
     }
     
     public func populateWallet(){
+        let sv = UIViewController.start(onView: self.view)
         var tempWallets = [Wallet]()
         db.collection(UserConfig.documentName).document((Auth.auth().currentUser?.uid)!).collection(WalletConfig.documentName).getDocuments(completion: { querySnapshot, error in
             for document in querySnapshot!.documents {
@@ -151,20 +165,40 @@ class TransactionViewController: UIViewController, UITableViewDelegate, UITableV
                 }
             }
             self.Wallets = tempWallets
+            UIViewController.stop(spinner: sv)
+            self.populate()
         })
     }
     
     public func populate(){
         let sv = UIViewController.start(onView: self.view)
+        
         var tempTransactions = [Transaction]()
-        db.collection(UserConfig.documentName).document((Auth.auth().currentUser?.uid)!).collection(TransactionConfig.documentName).order(by: "createDate", descending: true).getDocuments(completion: { querySnapshot, error in
+        self.dateSection = []
+        
+        var ref = db.collection(UserConfig.documentName).document((Auth.auth().currentUser?.uid)!).collection(TransactionConfig.documentName).order(by: "createDate", descending: true)
+        
+        if self.dateRangeData > 0 {
+            switch self.dateRangeData {
+            case 1: // Week
+                ref = ref.whereField("createDate", isGreaterThan: Date().startOfWeek().timeIntervalSince1970).whereField("createDate", isLessThan: Date().endOfWeek().timeIntervalSince1970)
+            case 2: // Month
+                ref = ref.whereField("createDate", isGreaterThan: Date().startOfMonth().timeIntervalSince1970).whereField("createDate", isLessThan: Date().endOfMonth().timeIntervalSince1970)
+            case 3:
+                print(Date().startOfYear().timeIntervalSince1970, Date().endOfYear().timeIntervalSince1970)
+            default: ()
+            }
+        }
+        
+        ref.getDocuments(completion: { querySnapshot, error in
             for document in querySnapshot!.documents {
                 if  let name = document.data()["name"] as? String,
                     let detail = document.data()["detail"] as? String,
                     let amount = document.data()["amount"] as? Double,
                     let typeID = document.data()["type"] as? String,
                     let walletID = document.data()["wallet"] as? String,
-                    let createDate = document.data()["createDate"] as? Double {
+                    let createDate = document.data()["createDate"] as? Double,
+                    let isRepeat = document.data()["repeat"] as? Bool {
                     if tempTransactions.contains(where: {$0.ID == document.documentID}) == false {
                         let newType = Transaction(
                             ID: document.documentID,
@@ -176,17 +210,27 @@ class TransactionViewController: UIViewController, UITableViewDelegate, UITableV
                             TypeName: self.WalletTypes.filter({ $0.ID == typeID })[0].Name,
                             TypeSection: self.WalletTypes.filter({ $0.ID == typeID })[0].Section,
                             CreateDate: createDate,
-                            Repeat: true)
+                            Repeat: isRepeat)
+
                         tempTransactions.append(newType)
-                        
-                        let dateRange: String = TimestampToDate(time: createDate, format: "dd/MM/yyyy")
-                        if self.dateSection.contains(where: {$0 == dateRange}) == false {
-                            self.dateSection.append(dateRange)
-                        }
                     }
                 }
             }
-            self.dateSection.sort(by: {$0 > $1 })
+
+            if self.typeData > 0 {
+                tempTransactions = tempTransactions.filter({ $0.TypeSection == self.typeData - 1 })
+            }
+            
+            for transaction in tempTransactions {
+                let dateRange: String = TimestampToDate(time: transaction.CreateDate, format: "dd/MM/yyyy")
+                if self.dateSection.contains(where: {$0 == dateRange}) == false {
+                    self.dateSection.append(dateRange)
+                }
+            }
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "dd/MM/yyyy"
+            self.dateSection = self.dateSection.sorted(by: { dateFormatter.date(from:$0)?.compare(dateFormatter.date(from:$1)!) == .orderedDescending })
+
             self.Transactions = tempTransactions
             self.transactionTable.reloadData()
             UIViewController.stop(spinner: sv)
@@ -195,8 +239,7 @@ class TransactionViewController: UIViewController, UITableViewDelegate, UITableV
     
     override func viewWillAppear(_ animated: Bool) {
         populateWalletType()
-        populateWallet()
-        populate()
+        
     }
     
     override func viewDidLoad() {
@@ -206,6 +249,13 @@ class TransactionViewController: UIViewController, UITableViewDelegate, UITableV
     func backFromDateRange(select: Int, rangeArr: Array<Any>) {
         dateRangeData = select
         dateRangeButton.title = rangeArr[select] as? String
+        populate()
+    }
+    
+    func backFromType(select: Int, typeArr: Array<Any>) {
+        typeData = select
+        typeButton.title = typeArr[select] as? String
+        populate()
     }
 
     override func didReceiveMemoryWarning() {

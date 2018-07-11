@@ -1,32 +1,32 @@
 //
-//  DateRangeViewController.swift
+//  TypeViewController.swift
 //  MyWallet
 //
-//  Created by Tuan Duong on 6/18/18.
+//  Created by Tuan Duong on 6/22/18.
 //  Copyright © 2018 Anh Tuan. All rights reserved.
 //
 
 import UIKit
 
-protocol backToTransactionViewFromDateRange {
-    func backFromDateRange(select: Int, rangeArr: Array<Any>)
+protocol backToTransactionViewFromType {
+    func backFromType(select: Int, typeArr: Array<Any>)
 }
 
-class DateRangeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
-    var delegate: backToTransactionViewFromDateRange? = nil
-    
-    let dateRange = ["Tất cả thời gian", "Tuần này", "Tháng này", "Năm này"]
-    var dateRangeData = -1
+class TypeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    var delegate: backToTransactionViewFromType? = nil
+    
+    let typeArray = ["Tất cả danh mục", "Thu", "Chi"]
+    var typeData = -1
+    
     @IBOutlet weak var popupView: UIView!
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         for row in 0..<tableView.numberOfRows(inSection: 0) {
             if let cell = tableView.cellForRow(at: IndexPath(row: row, section: indexPath.section)) {
                 cell.accessoryType = row == indexPath.row ? .checkmark : .none
-                dateRangeData = indexPath.row
-                self.delegate?.backFromDateRange(select: dateRangeData, rangeArr: dateRange)
+                typeData = indexPath.row
+                self.delegate?.backFromType(select: typeData, typeArr: typeArray)
                 dismiss(animated: true, completion: nil)
             }
         }
@@ -34,24 +34,26 @@ class DateRangeViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        cell.textLabel?.text = dateRange[indexPath.row]
-        if dateRangeData == indexPath.row {
+        cell.textLabel?.text = typeArray[indexPath.row]
+        if typeData == indexPath.row {
+            cell.accessoryType = .checkmark
+        } else if typeData == -2 && indexPath.row == 0 {
             cell.accessoryType = .checkmark
         }
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dateRange.count
+        return typeArray.count
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Chọn khoản thời gian"
+        return "Chọn loại danh mục"
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if dateRangeData == -1 {
-            dateRangeData = 0
+        if typeData == -1 {
+            typeData = 0
         }
     }
     
@@ -61,7 +63,7 @@ class DateRangeViewController: UIViewController, UITableViewDelegate, UITableVie
         popupView.layer.cornerRadius = 6
         popupView.layer.masksToBounds = true
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

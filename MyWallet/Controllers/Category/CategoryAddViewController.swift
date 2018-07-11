@@ -76,10 +76,27 @@ class CategoryAddViewController: UITableViewController {
     @IBAction func submit(_ sender: Any) {
         let sv = UIViewController.start(onView: self.view)
         if passWalletTypeID.isEmpty {
-            let newType = WalletType(ID: "", Name: typeName.text!, Detail: typeDetail.text, Section: (typeTable.indexPathForSelectedRow?.row)!)
-            newType.add {
-                self.navigationController?.popViewController(animated: true)
+            if let selection = typeTable.indexPathForSelectedRow?.row, let name = typeName.text {
+                let newType = WalletType(ID: "", Name: name, Detail: typeDetail.text, Section: selection)
+                newType.add {
+                    self.navigationController?.popViewController(animated: true)
+                    UIViewController.stop(spinner: sv)
+                }
+            } else {
                 UIViewController.stop(spinner: sv)
+                if typeName.text == "" {
+                    let alertErrController = UIAlertController(title: "Xảy ra lỗi", message: "Vui lòng nhập tên danh mục thu chi", preferredStyle: UIAlertControllerStyle.alert)
+                    alertErrController.addAction(
+                        UIKit.UIAlertAction(title: "OK", style: UIAlertActionStyle.default)
+                    )
+                    present(alertErrController, animated: true, completion: nil)
+                } else if !(typeTable.indexPathForSelectedRow != nil) {
+                    let alertErrController = UIAlertController(title: "Xảy ra lỗi", message: "Vui lòng chọn danh mục thu chi", preferredStyle: UIAlertControllerStyle.alert)
+                    alertErrController.addAction(
+                        UIKit.UIAlertAction(title: "OK", style: UIAlertActionStyle.default)
+                    )
+                    present(alertErrController, animated: true, completion: nil)
+                }
             }
         } else {
             let newType = WalletType(ID: passWalletTypeID, Name: typeName.text!, Detail: typeDetail.text, Section: SelectedID)

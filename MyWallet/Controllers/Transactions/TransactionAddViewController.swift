@@ -42,14 +42,17 @@ class TransactionAddViewController: UITableViewController {
             passWalletID = fpassWalletID
         }
         
+        var createDate: Int
+        createDate = DateToTimestamp(time: self.datePicker.text!, format: "dd/MM/yyyy HH:mm")
+        
         if fpassWalletID.isEmpty && fpassTypeID.isEmpty {
-            let newTransaction = Transaction(ID: nil, Name: TransactionName.text!, Detail: TransactionDetail.text, Amount: Int(amountOfMoney.text!)!, WalletID: passWalletID, TypeID: passTypeID, TypeSection: WalletTypes.first(where: { $0.ID == passTypeID })?.Section, CreateDate: self.datePickerView.date.timeIntervalSince1970, Repeat: repeatMonthly.isOn)
+            let newTransaction = Transaction(ID: nil, Name: TransactionName.text!, Detail: TransactionDetail.text, Amount: Int(amountOfMoney.text!)!, WalletID: passWalletID, TypeID: passTypeID, TypeSection: WalletTypes.first(where: { $0.ID == passTypeID })?.Section, CreateDate: Double(createDate), Repeat: repeatMonthly.isOn)
             newTransaction.add {
                 UIViewController.stop(spinner: sv)
                 self.navigationController?.popViewController(animated: true)
             }
         } else {
-            let newTransaction = Transaction(ID: passTransaction?.ID, Name: TransactionName.text!, Detail: TransactionDetail.text, Amount: Int(amountOfMoney.text!)!, WalletID: passWalletID, TypeID: passTypeID, TypeSection: WalletTypes.first(where: { $0.ID == passTypeID })?.Section, CreateDate: self.datePickerView.date.timeIntervalSince1970, Repeat: repeatMonthly.isOn)
+            let newTransaction = Transaction(ID: passTransaction?.ID, Name: TransactionName.text!, Detail: TransactionDetail.text, Amount: Int(amountOfMoney.text!)!, WalletID: passWalletID, TypeID: passTypeID, TypeSection: WalletTypes.first(where: { $0.ID == passTypeID })?.Section, CreateDate: Double(createDate), Repeat: repeatMonthly.isOn)
             newTransaction.edit(tmpTransaction: passTransaction!, success: {
                 UIViewController.stop(spinner: sv)
                 self.navigationController?.popViewController(animated: true)
@@ -124,8 +127,9 @@ class TransactionAddViewController: UITableViewController {
     
     @objc func datePickerValueChanged(sender: UIDatePicker) {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .short
-        dateFormatter.timeStyle = .short
+        dateFormatter.dateFormat = "dd/MM/yyyy HH:mm"
+//        dateFormatter.dateStyle = .short
+//        dateFormatter.timeStyle = .short
         datePicker.text = dateFormatter.string(from: sender.date)
     }
     
@@ -152,8 +156,9 @@ class TransactionAddViewController: UITableViewController {
     
     @objc func todayPicker() {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .short
-        dateFormatter.timeStyle = .short
+        dateFormatter.dateFormat = "dd/MM/yyyy HH:mm"
+//        dateFormatter.dateStyle = .short
+//        dateFormatter.timeStyle = .short
         datePicker.text = dateFormatter.string(for: Date())
     }
     

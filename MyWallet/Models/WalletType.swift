@@ -9,7 +9,7 @@
 import FirebaseFirestore
 import FirebaseAuth
 
-var WalletTypeSection = ["Danh mục thu", "Danh mục chi", "Lãi suất"]
+var WalletTypeSection = ["Danh mục thu", "Danh mục chi"] // ["Danh mục thu", "Danh mục chi", "Lãi suất"]
 
 struct WalletTypeConfig {
     static let documentName = "types"

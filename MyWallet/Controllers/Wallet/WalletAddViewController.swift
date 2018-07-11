@@ -21,6 +21,14 @@ class WalletAddViewController: UITableViewController {
     
     @IBAction func submit(_ sender: Any) {
         let sv = UIViewController.start(onView: self.view)
+        if WalletName.text == "" {
+            let alertErrController = UIAlertController(title: "Xảy ra lỗi", message: "Vui lòng nhập tên danh mục thu chi", preferredStyle: UIAlertControllerStyle.alert)
+            alertErrController.addAction(
+                UIKit.UIAlertAction(title: "OK", style: UIAlertActionStyle.default)
+            )
+            UIViewController.stop(spinner: sv)
+            return present(alertErrController, animated: true, completion: nil)
+        }
         if(passWalletID.isEmpty){
             let newWallet = Wallet(ID: "", Name: WalletName.text!, Detail: WalletDetail.text, StartAmount: Int(WalletAmountStart.text!))
             newWallet.add {

@@ -22,9 +22,11 @@ class LoginByPhoneViewController: UIViewController {
     
     func showErr(err: String){
         let alertErrController = UIAlertController(title: "Xảy ra lỗi", message: err, preferredStyle: UIAlertControllerStyle.alert)
-        alertErrController.addAction(UIKit.UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: { _ in
-            self.txtPhoneNumber.becomeFirstResponder()
-        }))
+        alertErrController.addAction(
+            UIKit.UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: { _ in
+                self.txtPhoneNumber.becomeFirstResponder()
+            })
+        )
         self.present(alertErrController, animated: true, completion: nil)
     }
     
